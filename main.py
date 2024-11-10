@@ -1,3 +1,4 @@
+# Halaman Utama 
 def garis():
     garis = print("--------------------------------------------")
     return garis
@@ -23,5 +24,3 @@ elif input_fitur == 3:
     garis()
     print("Nice one! Ini adalah Fitur 3. Bantuan Pengguna")
     garis()
-
-
