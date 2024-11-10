@@ -1,6 +1,6 @@
-def garis_keren():
-    garis_keren = print("--------------------------------------------")
-    return garis_keren
+def garis():
+    garis = print("--------------------------------------------")
+    return garis
 
 
 print("Selamat Datang di Ayona")
@@ -12,16 +12,16 @@ print("3. Bantuan Pengguna")
 input_fitur = int(input("Masukkan (1/2/3) Fitur yang ingin anda pilih: "))
 
 if input_fitur == 1:
-    garis_keren()
+    garis()
     print("Pilihan Bagus! Ini adalah Fitur 1. Yo-Managements")
-    garis_keren()
+    garis()
 elif input_fitur == 2:
-    garis_keren()
+    garis()
     print("Pilihan Keren! Ini adalah Fitur 2. Perhitungan Tabungan, yang memuat 2 Fitur yakni Yo-Savers & Yo-Goals")
-    garis_keren()
+    garis()
 elif input_fitur == 3:
-    garis_keren()
+    garis()
     print("Nice one! Ini adalah Fitur 3. Bantuan Pengguna")
-    garis_keren()
+    garis()
 
 
