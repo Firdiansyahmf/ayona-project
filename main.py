@@ -1,0 +1,5 @@
+print("Selamat Datang di Ayona")
+print("Pilih Opsi Berikut:")
+print("1. Yo-Managements")
+print("2. Perhitungan Tabungan")
+print("3. Bantuan Pengguna")
