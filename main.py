@@ -1,10 +1,13 @@
+from rich.console import Console
+from rich.text import Text
+
 # Halaman Utama 
 def garis():
     garis = print("--------------------------------------------")
     return garis
 
-
-print("Selamat Datang di Ayona")
+console = Console()
+console.print("Selamat Datang di Ayona", style="bright_green")
 print("Pilih Opsi Berikut:")
 print("1. Yo-Managements")
 print("2. Perhitungan Tabungan")
