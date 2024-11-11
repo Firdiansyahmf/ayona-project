@@ -26,3 +26,4 @@ elif input_fitur == 2:
 elif input_fitur == 3:
     garis()
     print("Nice one! Ini adalah Fitur 3. Bantuan Pengguna")
+    garis()
