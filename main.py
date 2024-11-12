@@ -1,3 +1,5 @@
+import random
+
 # Pustaka Rich
 from rich import print  # Warna Teks
 from rich.progress import track  # Progress Bar
@@ -7,6 +9,13 @@ from rich.console import Console  # Menyorot Teks
 from rich.prompt import Prompt # Input interaktif
 
 # Fungsi
+laci_emoji = ["ヾ(⁍̴̆◡⁍̴̆。)ノ", "ヾ(˃ᴗ˂)◞", "(ღゝ◡╹)ノ"]
+
+def pilih_emoji():
+    emoji = random.choice(laci_emoji)
+    return emoji
+
+
 def progressBar():
     for _ in track(range(2), description="[bold green]Memuat..."):
         time.sleep(0.25)
@@ -23,24 +32,24 @@ def menuUtama():
 
 def fiturSatu():
     console.print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'kembali' untuk kembali ke menu utama[/bold bright_blue]", choices=["kembali"])
-    if kembali.lower() == "kembali":
+    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    if kembali.lower() == "q":
         progressBar()
         return True
     return False
 
 def fiturDua():
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'kembali' untuk kembali ke menu utama[/bold bright_blue]", choices=["kembali"])
-    if kembali.lower() == "kembali":
+    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    if kembali.lower() == "q":
         progressBar()
         return True
     return False
 
 def fiturTiga():
     console.print(Panel("Bantuan Pengguna", style="bold bright_cyan", width=20))
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'kembali' untuk kembali ke menu utama[/bold bright_blue]", choices=["kembali"])
-    if kembali.lower() == "kembali":
+    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    if kembali.lower() == "q":
         progressBar()
         return True
     return False
@@ -52,8 +61,8 @@ console = Console()
 Halaman Utama | Ayona 
 Versi 0.1
 """""
-greeting = "Selamat datang di aplikasi Ayona!"
-console.print(Panel(f"\n\t\t{greeting}\t\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
+greeting = "Selamat datang di aplikasi Ayona!" + pilih_emoji()
+console.print(Panel(f"\n\t{greeting}\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
 progressBar()
 
 # Program utama
