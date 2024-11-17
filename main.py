@@ -1,3 +1,5 @@
+import random
+
 # Pustaka Rich
 from rich.console import Console # Menyorot Teks
 from rich.panel import Panel # Menyorot Teks
@@ -16,6 +18,12 @@ from utils import progressBar
 console = Console()
 
 # Fungsi menu utama 
+laci_emoji = ["ヾ(˃ᴗ˂)◞", "(ღゝ◡╹)ノ", "(⌒ ▽⌒)ﾉ", "ヾ(˃ᴗ˂)◞✨"] ## Tambahin lagi kalo mau hehe :)
+
+def emoji():
+    emoji = random.choice(laci_emoji)
+    return emoji
+
 def menuUtama():
     console.print(Panel("Menu Utama", style="bold bright_white", width=14))
     console.print("[bold bright_white]1. Yo-Managements[/bold bright_white]")
@@ -29,8 +37,8 @@ def menuUtama():
 Fungsi main (main)
 """
 def main():
-    greeting = "Selamat datang di aplikasi Ayona!"
-    console.print(Panel(f"\n\t\t{greeting}\t\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
+    greeting = "Selamat datang di aplikasi Ayona!" + emoji()
+    console.print(Panel(f"\n\t{greeting}\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
     progressBar()
 
     while True:

@@ -18,8 +18,8 @@ def fiturTiga():
     console.print(Panel("Bantuan Pengguna", style="bold bright_cyan", width=20))
 
     # Kembali ke Halaman Utama
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'kembali' untuk kembali ke menu utama[/bold bright_blue]", choices=["kembali"])
-    if kembali.lower() == "kembali":
+    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    if kembali.lower() == "q":
         progressBar()
         return True
     return False
