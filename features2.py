@@ -10,9 +10,14 @@ from utils import progressBar
 # Buat objek Console dari pustaka Rich
 console = Console()
 
-# Fungsi
+"""
+Fungsi fitur 2
+(main)
+"""
 def fiturDua():
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
+
+    # Kembali ke Halaman Utama
     kembali = Prompt.ask("[bold bright_blue]Ketik 'kembali' untuk kembali ke menu utama[/bold bright_blue]", choices=["kembali"])
     if kembali.lower() == "kembali":
         progressBar()
