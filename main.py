@@ -15,7 +15,7 @@ from utils import progressBar
 # Buat objek Console dari pustaka Rich
 console = Console()
 
-# Fungsi
+# Fungsi menu utama 
 def menuUtama():
     console.print(Panel("Menu Utama", style="bold bright_white", width=14))
     console.print("[bold bright_white]1. Yo-Managements[/bold bright_white]")
@@ -25,6 +25,9 @@ def menuUtama():
     pilihan = Prompt.ask("[bold bright_green]Pilih menu yang ingin Anda akses (1-3), atau pilih 4 untuk keluar[/bold bright_green]", choices=["1", "2", "3", "4"])
     return pilihan
 
+"""
+Fungsi main (main)
+"""
 def main():
     greeting = "Selamat datang di aplikasi Ayona!"
     console.print(Panel(f"\n\t\t{greeting}\t\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
@@ -37,17 +40,17 @@ def main():
             progressBar()
             while True:
                 if fiturSatu():
-                    break # Kembali ke menu utama      
+                    break # Kembali ke menuUtama()     
         elif pilihan == "2":
             progressBar()
             while True:
                 if fiturDua():
-                    break # Kembali ke menu utama 
+                    break # Kembali ke menuUtama()
         elif pilihan == "3":
             progressBar()
             while True:
                 if fiturTiga():
-                    break # Kembali ke menu utama
+                    break # Kembali ke menuUtama()
         elif pilihan == "4":
             progressBar()  
             console.print("[bold bright_red](Keluar dari aplikasi)[/bold bright_red]")
