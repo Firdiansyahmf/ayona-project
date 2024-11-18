@@ -4,7 +4,7 @@ from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
 from fpdf import FPDF  # Impor PDF
-from rich.table import Table #Membuat Tabel
+from rich.table import Table # Membuat Tabel
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -170,7 +170,7 @@ def fiturSatu():
     if tabel.lower() == "y":
         tabel_keuangan(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
     else:
-        console.print("Tabel Tidak Ditampilkan. [/bold bright_red]")
+        console.print("Tabel Tidak Ditampilkan", 
 
     # Pilihan ekspor ke PDF
     eksporPDF = Prompt.ask("[bold bright_blue]Apakah Anda ingin mengekspor hasil catatan rekomendasi keuangan ke PDF?[/bold bright_blue]", choices=["y", "n"])
