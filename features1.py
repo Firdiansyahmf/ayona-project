@@ -4,6 +4,7 @@ from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
 from fpdf import FPDF  # Impor PDF
+from rich.table import Table #Membuat Tabel
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -13,6 +14,29 @@ from utils import progressBar, formatRupiah
 
 # Buat objek Console dari pustaka Rich
 console = Console()
+
+#Fungsi untuk membuat tabel
+def tabel_keuangan (tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp):
+
+    table = Table(title = "Catatan Rekomendasi Keuangan")
+
+    table.add_column ("Tipe Waktu Pemasukan",justify = "center", style = "cyan", no_wrap = True)
+    table.add_column ("Tanggal Pemasukan", justify = "center", style = "magenta")
+    table.add_column ("Jumlah Pemasukan", justify = "center", style = "yellow")
+    table.add_column ("Tipe Waktu Pengeluaran", justify = "center", style = "cyan")   
+    table.add_column ("Tanggal Pengeluaran", justify = "center", style = "green") 
+    table.add_column ("Jumlah Pengeluaran", justify = "center", style = "purple")    
+    table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "red")
+
+    table.add_row (str(tipeWaktuPemasukan),
+                   str(tanggalPemasukan),
+                   str(jumlahPemasukanRp), 
+                   str (tipeWaktuPengeluaran), 
+                   str (tanggalPengeluaran),
+                   str (jumlahPengeluaranRp),
+                   str (jumlahPemasukanBersihRp))
+
+    console.print(table)
 
 # Fungsi untuk mengekspor hasil ke PDF
 def ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp):
@@ -141,6 +165,13 @@ def fiturSatu():
     console.print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {jumlahPengeluaranRp}[/bold bright_cyan]")
     console.print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {jumlahPemasukanBersihRp}[/bold bright_cyan]")
     
+    # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
+    tabel = Prompt.ask("[bold bright_blue]Apakah anda ingin melihat catatan rekomendasi keuangan dalam bentuk tabel?[/bold bright_blue]", choices =["y", "n"])
+    if tabel.lower() == "y":
+        tabel_keuangan(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
+    else:
+        console.print("Tabel Tidak Ditampilkan. [/bold bright_red]")
+
     # Pilihan ekspor ke PDF
     eksporPDF = Prompt.ask("[bold bright_blue]Apakah Anda ingin mengekspor hasil catatan rekomendasi keuangan ke PDF?[/bold bright_blue]", choices=["y", "n"])
     if eksporPDF.lower() == "y":
