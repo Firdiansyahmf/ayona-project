@@ -3,6 +3,7 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
+from fpdf import FPDF  # Impor PDF
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -12,6 +13,29 @@ from utils import progressBar, formatRupiah
 
 # Buat objek Console dari pustaka Rich
 console = Console()
+
+# Fungsi untuk mengekspor hasil ke PDF
+def ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12) 
+    
+    # Header
+    pdf.cell(200, 10, txt="Catatan Rekomendasi Keuangan", ln=True, align='C')
+    pdf.ln(10) 
+
+    # Detail Ekspor
+    pdf.cell(0, 10, txt=f"Tipe waktu pemasukan : {tipeWaktuPemasukan}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Tanggal pemasukan : {tanggalPemasukan}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Jumlah pemasukan Anda : {jumlahPemasukanRp}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Tipe waktu pengeluaran : {tipeWaktuPengeluaran}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Tanggal pengeluaran : {tanggalPengeluaran}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Jumlah pengeluaran Anda : {jumlahPengeluaranRp}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Pemasukan bersih Anda : {jumlahPemasukanBersihRp}", ln=True, align='L')
+    
+    # Simpan file PDF
+    pdf.output("Catatan Rekomendasi Keuangan.pdf")
+    console.print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
 # Fungsi input tanggal berdasarkan tipe (pemasukan/pengeluaran)
 def inputTanggal(tipeTanggal):
@@ -71,7 +95,7 @@ def fiturSatu():
             jumlahPemasukan = float(jumlahPemasukan)
             break
         else:
-            print("[red]Input tidak valid. Harap masukkan angka positif.[/red]")
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
 
     # Input tipe dan tanggal pengeluaran
     tipeWaktuPengeluaran = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pengeluaran[/bold bright_green]", choices=["hari", "minggu", "bulan", "tahun"])
@@ -116,6 +140,13 @@ def fiturSatu():
     console.print(f"[bold bright_cyan]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_cyan]")
     console.print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {jumlahPengeluaranRp}[/bold bright_cyan]")
     console.print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {jumlahPemasukanBersihRp}[/bold bright_cyan]")
+    
+    # Pilihan ekspor ke PDF
+    eksporPDF = Prompt.ask("[bold bright_blue]Apakah Anda ingin mengekspor hasil catatan rekomendasi keuangan ke PDF?[/bold bright_blue]", choices=["y", "n"])
+    if eksporPDF.lower() == "y":
+        ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
+    else:
+        console.print("[bold bright_yellow]Data tidak diekspor ke PDF.[/bold bright_yellow]")
 
     # Kembali ke Halaman Utama
     kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
