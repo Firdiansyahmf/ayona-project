@@ -3,7 +3,11 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
+
+# Library
 from fpdf import FPDF  # Impor PDF
+from matplotlib import pyplot as plt
+from matplotlib import style
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -36,6 +40,42 @@ def ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeW
     # Simpan file PDF
     pdf.output("Catatan Rekomendasi Keuangan.pdf")
     console.print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
+
+def grafikLine(
+    tipeWaktuPemasukan, 
+    tanggalPemasukan, 
+    jumlahPemasukan, 
+    tipeWaktuPengeluaran, 
+    tanggalPengeluaran, 
+    jumlahPengeluaran, 
+    jumlahPemasukanBersih
+):
+    style.use('ggplot')
+
+    x = [0, 1]
+    pemasukan = int(jumlahPemasukan)
+    pengeluaran = int(jumlahPengeluaran)
+    y = [pemasukan, pengeluaran]
+    
+  
+
+    fig, ax = plt.subplots()
+
+    ax.bar(x, y, align='center')
+
+    for i, y in enumerate(y):
+        plt.text(i, y+ 50000, f'{y:,}', ha='center', va='bottom', color='white', fontsize=10)
+
+    ax.set_title('Yo-Managements Graphsite')
+    ax.set_ylabel('JUMLAH / QTY')
+    ax.set_xlabel('GRAFIK KAS')
+
+    ax.set_xticks(x)
+    a = "Pemasukan pada" + tanggalPemasukan
+    b = "Pengerluaran pada" + tanggalPengeluaran
+    ax.set_xticklabels((a, b))
+
+    plt.show()
 
 # Fungsi input tanggal berdasarkan tipe (pemasukan/pengeluaran)
 def inputTanggal(tipeTanggal):
@@ -129,6 +169,9 @@ def fiturSatu():
     jumlahPemasukanRp = formatRupiah(jumlahPemasukan)
     jumlahPengeluaranRp = formatRupiah(jumlahPengeluaran)
     jumlahPemasukanBersihRp = formatRupiah(jumlahPemasukanBersih)
+
+
+    grafikLine(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukan, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaran, jumlahPemasukanBersih)
 
     # Tampilkan rekomendasi keuangan
     progressBar()
