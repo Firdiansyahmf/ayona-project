@@ -170,7 +170,7 @@ def fiturSatu():
     if tabel.lower() == "y":
         tabel_keuangan(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
     else:
-        console.print("Tabel Tidak Ditampilkan. [/bold bright_red]")
+        console.print("Tabel Tidak Ditampilkan", style = "yellow")
 
     # Pilihan ekspor ke PDF
     eksporPDF = Prompt.ask("[bold bright_blue]Apakah Anda ingin mengekspor hasil catatan rekomendasi keuangan ke PDF?[/bold bright_blue]", choices=["y", "n"])
