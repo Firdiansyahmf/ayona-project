@@ -22,11 +22,11 @@ def tabel_keuangan (tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tip
 
     table.add_column ("Tipe Waktu Pemasukan",justify = "center", style = "cyan", no_wrap = True)
     table.add_column ("Tanggal Pemasukan", justify = "center", style = "magenta")
-    table.add_column ("Jumlah Pemasukan", justify = "center", style = "yellow")
+    table.add_column ("Jumlah Pemasukan", justify = "center", style = "green")
     table.add_column ("Tipe Waktu Pengeluaran", justify = "center", style = "cyan")   
-    table.add_column ("Tanggal Pengeluaran", justify = "center", style = "green") 
-    table.add_column ("Jumlah Pengeluaran", justify = "center", style = "purple")    
-    table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "red")
+    table.add_column ("Tanggal Pengeluaran", justify = "center", style = "magenta") 
+    table.add_column ("Jumlah Pengeluaran", justify = "center", style = "red")    
+    table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "green")
 
     table.add_row (str(tipeWaktuPemasukan),
                    str(tanggalPemasukan),
