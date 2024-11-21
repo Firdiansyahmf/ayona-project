@@ -50,31 +50,41 @@ def grafikLine(
     jumlahPengeluaran, 
     jumlahPemasukanBersih
 ):
-    style.use('ggplot')
+    # style.use('ggplot')
 
-    x = [0, 1]
+    # x = Garis X horizontal, y = Garis Y veritikal
+
+    x = [0, 1, 2]
     pemasukan = int(jumlahPemasukan)
     pengeluaran = int(jumlahPengeluaran)
-    y = [pemasukan, pengeluaran]
+    bersih = int(jumlahPemasukanBersih)
+    y = [pemasukan, pengeluaran, bersih]
     
   
 
     fig, ax = plt.subplots()
 
-    ax.bar(x, y, align='center')
+    # Definisikan Grafik apa disini Grafiknya == Bar(Batang)
+    ax.bar(x, y, align='center',  color=['blue', 'red', 'green'])
 
+    # Menampilkan Teks di dalam Grafiknya sesuai nilai Y
     for i, y in enumerate(y):
-        plt.text(i, y+ 50000, f'{y:,}', ha='center', va='bottom', color='white', fontsize=10)
+        plt.text(i, y-10000, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
 
-    ax.set_title('Yo-Managements Graphsite')
+    ax.set_title('Yo-Managements Graphsite by Ayona')
     ax.set_ylabel('JUMLAH / QTY')
     ax.set_xlabel('GRAFIK KAS')
 
+    # Set Teks Label pada Garis X yang horizontal
     ax.set_xticks(x)
-    a = "Pemasukan pada" + tanggalPemasukan
-    b = "Pengerluaran pada" + tanggalPengeluaran
-    ax.set_xticklabels((a, b))
+    a = "Pemasukan pada \n" + tanggalPemasukan
+    b = "Pengerluaran pada \n" + tanggalPengeluaran
+    c = "Pemasukan Bersih"
+    ax.set_xticklabels((a, b, c))
 
+    # Menampilkan Grafik
+
+    # plt.grid(True)
     plt.show()
 
 # Fungsi input tanggal berdasarkan tipe (pemasukan/pengeluaran)
@@ -170,9 +180,6 @@ def fiturSatu():
     jumlahPengeluaranRp = formatRupiah(jumlahPengeluaran)
     jumlahPemasukanBersihRp = formatRupiah(jumlahPemasukanBersih)
 
-
-    grafikLine(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukan, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaran, jumlahPemasukanBersih)
-
     # Tampilkan rekomendasi keuangan
     progressBar()
     console.print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
@@ -190,6 +197,13 @@ def fiturSatu():
         ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
     else:
         console.print("[bold bright_yellow]Data tidak diekspor ke PDF.[/bold bright_yellow]")
+
+    # Pilihan untuk menampilkan Grafik
+    tampilGrafik = Prompt.ask("[bold bright_blue]Apakah Anda ingin menampilkan Grafik?[/bold bright_blue]", choices=["y", "n"])
+    if tampilGrafik.lower() == "y":
+        grafikLine(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukan, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaran, jumlahPemasukanBersih)
+    else:
+        console.print("[bold bright_yellow]Data Grafik tidak diperlihatkan.[/bold bright_yellow]")
 
     # Kembali ke Halaman Utama
     kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
