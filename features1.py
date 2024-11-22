@@ -12,7 +12,8 @@ from datetime import datetime
 # Impor fungsi progressBar, formatRupiah
 from utils import progressBar, formatRupiah
 
-# Buat objek Console dari pustaka Rich
+# Buat objek Console dari pustaka RiQ
+# ch
 console = Console()
 
 #Fungsi untuk membuat tabel
