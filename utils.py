@@ -3,6 +3,9 @@ import time # Time Progress Bar
 from rich.progress import track # Progress Bar
 from rich import print # Warna Teks
 
+# Grafik
+import matplotlib.pyplot as plt
+
 # Fungsi Progress Bar
 def progressBar():
     for _ in track(range(2), description="[bold green]Memuat..."):
@@ -36,4 +39,4 @@ def formatRupiah(nilai):
     bagianDecimal = bagianDecimal[:2] 
 
     # Menggabung int dan desimal kembali
-    return f"Rp{formatBagianInt},{bagianDecimal}"    
+    return f"Rp{formatBagianInt},{bagianDecimal}"

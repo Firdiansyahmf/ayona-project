@@ -3,7 +3,11 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
+
+# Library
 from fpdf import FPDF  # Impor PDF
+from matplotlib import pyplot as plt
+from matplotlib import style
 from rich.table import Table #Membuat Tabel
 
 # Standar Pustaka Python (datetime)
@@ -23,11 +27,11 @@ def tabel_keuangan (tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tip
 
     table.add_column ("Tipe Waktu Pemasukan",justify = "center", style = "cyan", no_wrap = True)
     table.add_column ("Tanggal Pemasukan", justify = "center", style = "magenta")
-    table.add_column ("Jumlah Pemasukan", justify = "center", style = "yellow")
+    table.add_column ("Jumlah Pemasukan", justify = "center", style = "green")
     table.add_column ("Tipe Waktu Pengeluaran", justify = "center", style = "cyan")   
-    table.add_column ("Tanggal Pengeluaran", justify = "center", style = "green") 
-    table.add_column ("Jumlah Pengeluaran", justify = "center", style = "purple")    
-    table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "red")
+    table.add_column ("Tanggal Pengeluaran", justify = "center", style = "magenta") 
+    table.add_column ("Jumlah Pengeluaran", justify = "center", style = "red")    
+    table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "green")
 
     table.add_row (str(tipeWaktuPemasukan),
                    str(tanggalPemasukan),
@@ -61,6 +65,52 @@ def ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeW
     # Simpan file PDF
     pdf.output("Catatan Rekomendasi Keuangan.pdf")
     console.print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
+
+def grafikLine(
+    tipeWaktuPemasukan, 
+    tanggalPemasukan, 
+    jumlahPemasukan, 
+    tipeWaktuPengeluaran, 
+    tanggalPengeluaran, 
+    jumlahPengeluaran, 
+    jumlahPemasukanBersih
+):
+    # style.use('ggplot')
+
+    # x = Garis X horizontal, y = Garis Y veritikal
+
+    x = [0, 1, 2]
+    pemasukan = int(jumlahPemasukan)
+    pengeluaran = int(jumlahPengeluaran)
+    bersih = int(jumlahPemasukanBersih)
+    y = [pemasukan, pengeluaran, bersih]
+    
+  
+
+    fig, ax = plt.subplots()
+
+    # Definisikan Grafik apa disini Grafiknya == Bar(Batang)
+    ax.bar(x, y, align='center',  color=['blue', 'red', 'green'])
+
+    # Menampilkan Teks di dalam Grafiknya sesuai nilai Y
+    for i, y in enumerate(y):
+        plt.text(i, y-10000, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
+
+    ax.set_title('Yo-Managements Graphsite by Ayona')
+    ax.set_ylabel('JUMLAH / QTY')
+    ax.set_xlabel('GRAFIK KAS')
+
+    # Set Teks Label pada Garis X yang horizontal
+    ax.set_xticks(x)
+    a = "Pemasukan pada \n" + tanggalPemasukan
+    b = "Pengerluaran pada \n" + tanggalPengeluaran
+    c = "Pemasukan Bersih"
+    ax.set_xticklabels((a, b, c))
+
+    # Menampilkan Grafik
+
+    # plt.grid(True)
+    plt.show()
 
 # Fungsi input tanggal berdasarkan tipe (pemasukan/pengeluaran)
 def inputTanggal(tipeTanggal):
@@ -171,7 +221,7 @@ def fiturSatu():
     if tabel.lower() == "y":
         tabel_keuangan(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
     else:
-        console.print("Tabel Tidak Ditampilkan. [/bold bright_red]")
+        console.print("Tabel Tidak Ditampilkan", style = "yellow")
 
     # Pilihan ekspor ke PDF
     eksporPDF = Prompt.ask("[bold bright_blue]Apakah Anda ingin mengekspor hasil catatan rekomendasi keuangan ke PDF?[/bold bright_blue]", choices=["y", "n"])
@@ -179,6 +229,13 @@ def fiturSatu():
         ekspor_ke_pdf(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukanRp, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaranRp, jumlahPemasukanBersihRp)
     else:
         console.print("[bold bright_yellow]Data tidak diekspor ke PDF.[/bold bright_yellow]")
+
+    # Pilihan untuk menampilkan Grafik
+    tampilGrafik = Prompt.ask("[bold bright_blue]Apakah Anda ingin menampilkan Grafik?[/bold bright_blue]", choices=["y", "n"])
+    if tampilGrafik.lower() == "y":
+        grafikLine(tipeWaktuPemasukan, tanggalPemasukan, jumlahPemasukan, tipeWaktuPengeluaran, tanggalPengeluaran, jumlahPengeluaran, jumlahPemasukanBersih)
+    else:
+        console.print("[bold bright_yellow]Data Grafik tidak diperlihatkan.[/bold bright_yellow]")
 
     # Kembali ke Halaman Utama
     kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
