@@ -36,7 +36,7 @@
        python3 main.py
 
 # Panduan Instalasi Library
-Gampang aja buat install Library kamu tinggal masuk ke Command Prompt untuk Windows(Win + R) dan ketik perintahnya...
+Untuk install Library anda masuk ke Command Prompt untuk Windows(Win + R) dan ketikkan perintahnya:
 ## 1. Library Rich
 ##### Command Line for Windows:
 ```bash
@@ -47,7 +47,7 @@ Gampang aja buat install Library kamu tinggal masuk ke Command Prompt untuk Wind
   py -m pip install rich
 ```
 
-##### Command Line for Linux:
+##### Command Line for Linux (Debian, Ubuntu, dan Basis .deb lainnya):
 ###### First:
 ```bash
   sudo apt install pipx
@@ -62,9 +62,13 @@ Gampang aja buat install Library kamu tinggal masuk ke Command Prompt untuk Wind
 ```bash
   pip install fpdf
 ```
-##### or (beberapa kasus berbeda)
+##### or (beberapa kasus berbeda di Windows)
 ```bash
   py -m pip install fpdf
+```
+##### Command Line for Linux (Debian, Ubuntu, dan Basis .deb lainnya):
+```bash
+  sudo apt install python3-fpdf
 ```
 
 ## 3. MatplotLib
@@ -72,7 +76,11 @@ Gampang aja buat install Library kamu tinggal masuk ke Command Prompt untuk Wind
 ```bash
   pip install matplotlib
 ```
-##### or (beberapa kasus berbeda)
+##### or (beberapa kasus berbeda di Windows)
 ```bash
   py -m pip install matplotlib
+```
+##### Command Line for Linux (Debian, Ubuntu, dan Basis .deb lainnya):
+```bash
+  sudo apt-get install python3-matplotlib
 ```
