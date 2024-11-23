@@ -14,29 +14,22 @@ def progressBar():
 
 # Fungsi format ke Rupiah
 def formatRupiah(nilai):
-    # Membagi angka menjadi bagian int dan desimal
-    strNilai = str(nilai)
-    if '.' in strNilai:
-        bagianInt, bagianDecimal = strNilai.split('.')
-    else:
-        bagianInt, bagianDecimal = strNilai, '00'
-    
-    # Menambah pemisah ribuan untuk bagianInt
-    bagianInt = bagianInt[::-1]
-    formatBagianInt = ""
-    for i in range (0, len(bagianInt), 3):
-        formatBagianInt += bagianInt[i:i+3] + "."
-    
-    # Menghapus titik terakhir jika ada
-    if formatBagianInt[-1] == ".":
-        formatBagianInt = formatBagianInt[:-1]
+    # int nilai negatif?
+    nilaiNegatif = nilai < 0
+    nilai = abs(nilai)  # Ubah menjadi positif untuk pemrosesan
 
-    # Membalikan str nilai setelah pemisah ribuah ditambahkan
-    formatBagianInt = formatBagianInt[::-1]
+    # Konversi int nilai ke string
+    strNilai = f"{nilai:.2f}"
+    bagianInt, bagianDecimal = strNilai.split('.')
 
-    # Menjaga hanya 2 angka di belakang koma untuk bagian desimal
-    bagianDecimal = bagianDecimal + '00' 
-    bagianDecimal = bagianDecimal[:2] 
+    # Format bagian integer dengan pemisah ribuan
+    formatBagianInt = "{:,}".format(int(bagianInt)).replace(",", ".")
 
-    # Menggabung int dan desimal kembali
-    return f"Rp{formatBagianInt},{bagianDecimal}"
+    # Gabungkan kembali bagian integer dan desimal
+    hasil = f"Rp{formatBagianInt},{bagianDecimal}"
+
+    # Tambahkan tanda negatif jika nilai awalnya negatif
+    if nilaiNegatif:
+        hasil = f"-{hasil}"
+
+    return hasil
