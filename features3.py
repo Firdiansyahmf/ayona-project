@@ -11,7 +11,7 @@ from utils import progressBar
 console = Console()
 
 """
-Fungsi fitur 3
+Fitur 3
 (main)
 """
 def fiturTiga():

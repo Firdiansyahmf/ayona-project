@@ -18,7 +18,7 @@ from utils import progressBar
 console = Console()
 
 # Fungsi menu utama 
-laci_emoji = ["ヾ(˃ᴗ˂)◞", "(ღゝ◡╹)ノ", "(⌒ ▽⌒)ﾉ", "ヾ(˃ᴗ˂)◞✨"] ## Tambahin lagi kalo mau hehe :)
+laci_emoji = ["ヾ(˃ᴗ˂)◞", "(ღゝ◡╹)ノ", "(⌒ ▽⌒)ﾉ", "ヾ(˃ᴗ˂)◞✨"]
 
 def emoji():
     emoji = random.choice(laci_emoji)
