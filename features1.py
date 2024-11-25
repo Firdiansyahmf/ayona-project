@@ -123,10 +123,20 @@ def eksporPDF(
     pdf.cell(0, 10, txt=f"Pemasukan bersih Anda : {jumlahPemasukanBersihRp}", ln=True, align='L')
     
     unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
-    file_path = os.path.join(unduh_path, "Catatan Rekomendasi Keuangan.pdf")
+    nama_file_awal = "Catatan_Rekomendasi_Keuangan"
+    
+    #Supaya file hasil ekspor PDF tidak menimpa file hasil ekspor PDF lainnya
+    angka_urut = 1
+    while True:
+        nama_file = f"{nama_file_awal} ({angka_urut}).pdf"
+        lokasi_file = os.path.join(unduh_path, nama_file)
+        
+        if not os.path.exists(lokasi_file):
+            break
+        angka_urut += 1
 
     # Simpan file PDF
-    pdf.output(file_path)
+    pdf.output(lokasi_file)
     print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
 # Inisialisasi varibale global
