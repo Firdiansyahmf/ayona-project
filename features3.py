@@ -11,10 +11,11 @@ from utils import progressBar
 console = Console()
 
 """
-Fungsi fitur 3
+Fitur 3
 (main)
 """
 def fiturTiga():
+    # Panel
     console.print(Panel("Bantuan Pengguna", style="bold bright_cyan", width=20))
 
     # Kembali ke Halaman Utama
