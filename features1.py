@@ -54,7 +54,6 @@ def tabelKeuangan (
     print(table)
     
 def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan):
-    # Menentukan persentase tabungan berdasarkan tipe waktu pemasukan
     if tipeWaktuPemasukan == "hari":
         persentase_tabungan = 0.05  # 5% untuk pemasukan harian
     elif tipeWaktuPemasukan == "minggu":
@@ -66,10 +65,7 @@ def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tip
     else:
         persentase_tabungan = 0.20  # Default 20% jika tipe tidak dikenal
     
-    # Menghitung tabungan yang disarankan
     tabungan_disarankan = jumlahPemasukan * persentase_tabungan
-
-    # Menghitung sisa pemasukan setelah tabungan
     sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
 
     # Menampilkan saran keuangan
