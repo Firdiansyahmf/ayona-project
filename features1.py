@@ -3,6 +3,7 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
+import os #Supaya file ekspor PDF terunduh di direktori downloads
 
 # Library
 from fpdf import FPDF  # Impor PDF
@@ -121,9 +122,12 @@ def eksporPDF(
     pdf.cell(0, 10, txt=f"Jumlah pengeluaran Anda : {jumlahPengeluaranRp}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Pemasukan bersih Anda : {jumlahPemasukanBersihRp}", ln=True, align='L')
     
+    unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
+    file_path = os.path.join(unduh_path, "Catatan Rekomendasi Keuangan.pdf")
+
     # Simpan file PDF
-    pdf.output("Catatan Rekomendasi Keuangan.pdf")
-    console.print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
+    pdf.output(file_path)
+    print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
 # Inisialisasi varibale global
 jumlahPemasukanBersih = None
@@ -152,7 +156,7 @@ def fiturSatu():
 
     # Input tipe dan tanggal pengeluaran
     tipeWaktuPengeluaran = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pengeluaran[/bold bright_green]", 
-                                      choices=["hari", "minggu", "bulan", "tahun"])
+                                    choices=["hari", "minggu", "bulan", "tahun"])
     tanggalPengeluaran = inputTanggal("pengeluaran")
 
     # Input jumlah pengeluaran
@@ -175,7 +179,7 @@ def fiturSatu():
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
     tabel = Prompt.ask("[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
-                       choices =["y","n"])
+                    choices =["y","n"])
     if tabel.lower() == "y":
         tabelKeuangan(
             tipeWaktuPemasukan, 
@@ -202,7 +206,7 @@ def fiturSatu():
 
     # Pilihan ekspor ke PDF
     eksporKePDF = Prompt.ask("[bold bright_blue]Ekspor ke PDF?[/bold bright_blue]", 
-                           choices=["y", "n"])
+                        choices=["y", "n"])
     if eksporKePDF.lower() == "y":
         eksporPDF(
         tipeWaktuPemasukan, 

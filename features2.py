@@ -71,7 +71,7 @@ def fiturDua():
     # Input tipe dan tanggal pemasukan
     console.print("[bold bright_cyan]1. Yo-Savers\n2. Yo-Goals\n[bold bright_yellow]3. Kembali[/bold bright_yellow][/bold bright_cyan]")
     pilihanPerhitungan = Prompt.ask("[bold bright_green]Pilih menu yang ingin Anda akses (1-2), atau pilih 3 untuk kembali[/bold bright_green]", 
-                          choices=["1", "2", "3"])
+                        choices=["1", "2", "3"])
     progressBar()
     
     # Masuk ke Yo-Savers
