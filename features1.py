@@ -51,7 +51,26 @@ def tabelKeuangan (
         str (jumlahPemasukanBersihRp)
     )
 
-    console.print(table)
+    print(table)
+    
+#Fungsi untuk memberikan saran keuangan
+def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih):
+    #Menyisihkan 20% untuk tabungan
+    persentase_tabungan = 0.2
+    tabungan_disarankan = jumlahPemasukan * persentase_tabungan
+
+    #Menghitung sisa pemasukan setelah tabungan
+    sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
+
+    #Saran pengelolaan keuangan
+    print(f"\n[bold green]Saran Tabungan:[/bold green] Sisihkan [bold bright_cyan] {persentase_tabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
+    print(f"[bold green]Tabungan yang disarankan:[/bold green] [bold bright_cyan] {formatRupiah(tabungan_disarankan)} [/bold bright_cyan]")
+    print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisa_pemasukan)} [/bold bright_cyan]")
+
+    if sisa_pemasukan > 0:
+        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa uang ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
+    else:
+        print(f"[bold red]Peringatan:[/bold red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
 
 # Fungsi untuk membuat grafik
 def grafikLine(
@@ -135,11 +154,11 @@ def eksporPDF(
             break
         angka_urut += 1
 
-    # Simpan file PDF
+    #Simpan file PDF
     pdf.output(lokasi_file)
     print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
-# Inisialisasi varibale global
+#Inisialisasi varibale global
 jumlahPemasukanBersih = None
 
 """
@@ -148,7 +167,7 @@ Fitur 1
 """
 def fiturSatu():
     # Panel
-    console.print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
+    print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
 
     # Input tipe dan tanggal pemasukan
     tipeWaktuPemasukan = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pemasukan[/bold bright_green]", 
@@ -162,7 +181,7 @@ def fiturSatu():
             jumlahPemasukan = float(jumlahPemasukan)
             break
         else:
-            console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
+            print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
 
     # Input tipe dan tanggal pengeluaran
     tipeWaktuPengeluaran = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pengeluaran[/bold bright_green]", 
@@ -178,17 +197,20 @@ def fiturSatu():
 
     # Tampilkan catatan rekomendasi keuangan
     progressBar()
-    console.print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
-    console.print(f"[bold bright_cyan]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_cyan]")
-    console.print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_cyan]")
+    print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
+    print(f"[bold bright_cyan]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_cyan]")
+    print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_cyan]")
+    
+    #Fitur Saran Keuangan
+    saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
-    tabel = Prompt.ask("[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+    tabel = Prompt.ask(f"\n [bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
                     choices =["y","n"])
     if tabel.lower() == "y":
         tabelKeuangan(
