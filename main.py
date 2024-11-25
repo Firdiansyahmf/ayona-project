@@ -38,7 +38,7 @@ Fungsi main (main)
 """
 def main():
     greeting = "Selamat datang di aplikasi Ayona!" + emoji()
-    console.print(Panel(f"\n\t{greeting}\t\n", title="Sistem Ayona", title_align="right", style="bold bright_blue", width=64))
+    console.print(Panel(f"\n\t{greeting}\t\n", title="Sistem Ayona", title_align="right", style="bold bright_cyan", width=64))
     progressBar()
 
     while True:
