@@ -8,7 +8,8 @@ from rich import print  # Warna teks
 from fpdf import FPDF  # Impor PDF
 from matplotlib import pyplot as plt
 from matplotlib import style
-from rich.table import Table #Membuat Tabel
+from rich.table import Table # Membuat Tabel
+from math import ceil  # Impor ceil
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -122,9 +123,10 @@ def fiturDua():
             lamaWaktuMenabung = Prompt.ask("[bold bright_green]Masukkan lama waktu menabung (Masukkan angka berdasarkan jenis sebelumnya)[/bold bright_green]")
             if lamaWaktuMenabung.isdigit():
                 lamaWaktuMenabung = float(lamaWaktuMenabung)
+
                 break
             elif lamaWaktuMenabung == 0:
-                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka tidak sama dengan 0.[/bold bright_red]")
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
         
@@ -208,7 +210,38 @@ def fiturDua():
         )
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
-            console.print(Panel("Yo-Goals", style="bold bright_white", width=12))
+
+        console.print(Panel("Yo-Goals", style="bold bright_white", width=12))
+
+        # Input jumlah besaran Menabung di tiap harinya
+        while True:
+            besaranMenabungHari = Prompt.ask("[bold bright_green]Masukkan jumlah besaran menabung di setiap harinya (Masukkan angka)[/bold bright_green]")
+            if besaranMenabungHari.isdigit():
+                besaranMenabungHari = float(besaranMenabungHari)
+                break
+            elif besaranMenabungHari == 0:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka tidak sama dengan 0.[/bold bright_red]")
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
+
+        # Input target besaran menabung
+        while True:
+            targetBesaranMenabung = Prompt.ask("[bold bright_green]Masukkan target besaran menabung Anda[/bold bright_green]")
+            if targetBesaranMenabung.isdigit():
+                targetBesaranMenabung = int(targetBesaranMenabung)
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
+
+        # Perhitungan Yo-Goals (Lama waktu pengguna perlu menabung)
+        yoGoals = ceil(targetBesaranMenabung / besaranMenabungHari)
+
+        # Tampilkan catatan menabung Yo-Goals
+        progressBar()
+        console.print(Panel("Catatan Menabung Yo-Goals", style="bold bright_white", width=15))
+        console.print(f"[bold bright_white]Jumlah besaran menabung di setiap harinya\t: {formatRupiah(besaranMenabungHari)}[/bold bright_white]")
+        console.print(f"[bold bright_white]Jumlah target besaran menabung\t\t\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
+        console.print(f"[bold bright_white]Lama Anda perlu menabung\t\t\t: {yoGoals} hari[/bold bright_white]")
     
     # Kembali ke Halaman Utama
     elif pilihanPerhitungan == "3":

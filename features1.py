@@ -9,7 +9,7 @@ import os #Supaya file ekspor PDF terunduh di direktori downloads
 from fpdf import FPDF  # Impor PDF
 from matplotlib import pyplot as plt
 from matplotlib import style
-from rich.table import Table #Membuat Tabel
+from rich.table import Table # Membuat Tabel
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
