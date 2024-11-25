@@ -20,6 +20,38 @@ from utils import progressBar, formatRupiah, hitungJumlahPengeluaran
 # Buat objek Console dari pustaka Rich
 console = Console()
 
+#Fungsi membuat Tabel
+def tabelYo_Savers(
+        tanggalPerhitungan,
+        hariMenabung,
+        targetBesaranMenabung,
+        jumlahPemasukanBersih,
+        yoSaversHari,
+        yoSaversMinggu,
+        yoSaversBulan
+):
+    table = Table(title = "Tabel Yo-Savers")
+
+    table.add_column ("Tanggal Perhitungan",justify = "center", style = "cyan", no_wrap = True)
+    table.add_column ("Lama Waktu Menabung", justify = "center", style = "magenta")
+    table.add_column ("Target Besaran Menabung", justify = "center", style = "green")
+    table.add_column ("Pemasukan Bersih Anda", justify = "center", style = "cyan")   
+    table.add_column ("Menabung per Hari", justify = "center", style = "magenta") 
+    table.add_column ("Menabung per Minggu", justify = "center", style = "red")    
+    table.add_column ("Menabung per Bulan", justify = "center", style = "green")
+
+    table.add_row (
+        str(tanggalPerhitungan),
+        str(hariMenabung),
+        str(targetBesaranMenabung), 
+        str (jumlahPemasukanBersih), 
+        str (yoSaversHari),
+        str (yoSaversMinggu),
+        str (yoSaversBulan)
+    )
+
+    print(table)
+
 # Fungsi untuk mengecek apakah tahun adalah kabisat
 def tahunKabisat(tahun):
     if (tahun % 4 == 0 and tahun % 100 != 0) or (tahun % 400 == 0):
@@ -163,8 +195,22 @@ def fiturDua():
             console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
             break
 
+    #Pilihan Yo-Savers dalam bentuk Tabel
+        tabel = Prompt.ask(f"\n [bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+                    choices =["y","n"])
+        if tabel.lower() == "y":
+                tabelYo_Savers(
+                tanggalPerhitungan, 
+                hariMenabung, 
+                formatRupiah(targetBesaranMenabung),
+                formatRupiah(jumlahPemasukanBersih), 
+                formatRupiah(yoSaversHari),  
+                formatRupiah(yoSaversMinggu), 
+                formatRupiah(yoSaversBulan)
+        )
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
+
         console.print(Panel("Yo-Goals", style="bold bright_white", width=12))
 
         # Input jumlah besaran Menabung di tiap harinya
