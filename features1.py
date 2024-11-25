@@ -9,7 +9,7 @@ import os #Supaya file ekspor PDF terunduh di direktori downloads
 from fpdf import FPDF  # Impor PDF
 from matplotlib import pyplot as plt
 from matplotlib import style
-from rich.table import Table # Membuat Tabel
+from rich.table import Table #Membuat Tabel
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -74,7 +74,7 @@ def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tip
     print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisa_pemasukan)} [/bold bright_cyan]")
 
     if sisa_pemasukan > 0:
-        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa uang ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
+        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
     else:
         print(f"[bold red]Peringatan:[/bold red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
 
@@ -120,25 +120,44 @@ def grafikLine(
     # plt.grid(True)
     plt.show()
 
-# Fungsi untuk mengekspor catatan rekomendasi keuangan ke PDF
+#Fungsi untuk mengekspor catatan rekomendasi keuangan ke PDF
 def eksporPDF(
-        tipeWaktuPemasukan, 
-        tanggalPemasukan, 
-        jumlahPemasukanRp, 
-        tipeWaktuPengeluaran, 
-        tanggalPengeluaran, 
-        jumlahPengeluaranRp, 
-        jumlahPemasukanBersihRp
+    tipeWaktuPemasukan, 
+    tanggalPemasukan, 
+    jumlahPemasukanRp, 
+    tipeWaktuPengeluaran, 
+    tanggalPengeluaran, 
+    jumlahPengeluaranRp, 
+    jumlahPemasukanBersihRp
 ):
+    jumlahPemasukan = float(jumlahPemasukanRp.replace(".", "").replace("Rp", "").replace(",", ".").strip())
+    jumlahPengeluaran = float(jumlahPengeluaranRp.replace(".", "").replace("Rp", "").replace(",", ".").strip())
+    jumlahPemasukanBersih = float(jumlahPemasukanBersihRp.replace(".", "").replace("Rp", "").replace(",", ".").strip())
+
+    #Menentukan persentase tabungan sesuai tipe waktu pemasukan
+    if tipeWaktuPemasukan == "hari":
+        persentase_tabungan = 0.05  # 5% untuk pemasukan harian
+    elif tipeWaktuPemasukan == "minggu":
+        persentase_tabungan = 0.10  # 10% untuk pemasukan mingguan
+    elif tipeWaktuPemasukan == "bulan":
+        persentase_tabungan = 0.20  # 20% untuk pemasukan bulanan
+    elif tipeWaktuPemasukan == "tahun":
+        persentase_tabungan = 0.20  # 20% untuk pemasukan tahunan
+    else:
+        persentase_tabungan = 0.20  # Default 20% jika tipe tidak dikenal
+
+    tabungan_disarankan = jumlahPemasukan * persentase_tabungan
+    sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
+
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12) 
     
-    # Header
+    #Header
     pdf.cell(200, 10, txt="Catatan Rekomendasi Keuangan", ln=True, align='C')
     pdf.ln(10) 
 
-    # Detail Ekspor
+    #Detail Ekspor
     pdf.cell(0, 10, txt=f"Tipe waktu pemasukan : {tipeWaktuPemasukan}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Tanggal pemasukan : {tanggalPemasukan}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Jumlah pemasukan Anda : {jumlahPemasukanRp}", ln=True, align='L')
@@ -146,23 +165,26 @@ def eksporPDF(
     pdf.cell(0, 10, txt=f"Tanggal pengeluaran : {tanggalPengeluaran}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Jumlah pengeluaran Anda : {jumlahPengeluaranRp}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Pemasukan bersih Anda : {jumlahPemasukanBersihRp}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Saran tabungan: Sisihkan {persentase_tabungan*100}% dari pemasukan Anda untuk tabungan investasi atau pengeluaran darurat.", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Tabungan yang disarankan: Rp{tabungan_disarankan:,.2f}", ln=True, align='L')
     
+    #Format sisa pemasukan menggunakan formatRupiah
+    pdf.cell(0, 10, txt=f"Sisa uang setelah ditabung: {formatRupiah(sisa_pemasukan)}", ln=True, align='L')
+
+    #Simpan PDF
     unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
     nama_file_awal = "Catatan_Rekomendasi_Keuangan"
     
-    #Supaya file hasil ekspor PDF tidak menimpa file hasil ekspor PDF lainnya
     angka_urut = 1
     while True:
         nama_file = f"{nama_file_awal} ({angka_urut}).pdf"
         lokasi_file = os.path.join(unduh_path, nama_file)
-        
         if not os.path.exists(lokasi_file):
             break
         angka_urut += 1
 
-    #Simpan file PDF
     pdf.output(lokasi_file)
-    print("Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
+    print(f"Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
 #Inisialisasi varibale global
 jumlahPemasukanBersih = None
@@ -216,7 +238,7 @@ def fiturSatu():
     saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
-    tabel = Prompt.ask(f"\n [bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+    tabel = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
                     choices =["y","n"])
     if tabel.lower() == "y":
         tabelKeuangan(
