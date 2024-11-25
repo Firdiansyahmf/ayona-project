@@ -53,16 +53,26 @@ def tabelKeuangan (
 
     print(table)
     
-#Fungsi untuk memberikan saran keuangan
-def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih):
-    #Menyisihkan 20% untuk tabungan
-    persentase_tabungan = 0.2
+def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan):
+    # Menentukan persentase tabungan berdasarkan tipe waktu pemasukan
+    if tipeWaktuPemasukan == "hari":
+        persentase_tabungan = 0.05  # 5% untuk pemasukan harian
+    elif tipeWaktuPemasukan == "minggu":
+        persentase_tabungan = 0.10  # 10% untuk pemasukan mingguan
+    elif tipeWaktuPemasukan == "bulan":
+        persentase_tabungan = 0.20  # 20% untuk pemasukan bulanan
+    elif tipeWaktuPemasukan == "tahun":
+        persentase_tabungan = 0.20  # 20% untuk pemasukan tahunan
+    else:
+        persentase_tabungan = 0.20  # Default 20% jika tipe tidak dikenal
+    
+    # Menghitung tabungan yang disarankan
     tabungan_disarankan = jumlahPemasukan * persentase_tabungan
 
-    #Menghitung sisa pemasukan setelah tabungan
+    # Menghitung sisa pemasukan setelah tabungan
     sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
 
-    #Saran pengelolaan keuangan
+    # Menampilkan saran keuangan
     print(f"\n[bold green]Saran Tabungan:[/bold green] Sisihkan [bold bright_cyan] {persentase_tabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
     print(f"[bold green]Tabungan yang disarankan:[/bold green] [bold bright_cyan] {formatRupiah(tabungan_disarankan)} [/bold bright_cyan]")
     print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisa_pemasukan)} [/bold bright_cyan]")
@@ -207,7 +217,7 @@ def fiturSatu():
     print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_cyan]")
     
     #Fitur Saran Keuangan
-    saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih)
+    saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
     tabel = Prompt.ask(f"\n [bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
