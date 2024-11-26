@@ -154,6 +154,7 @@ def eksporPDF(
     pdf.set_font("Arial", size=12) 
     
     #Header
+    pdf.set_font("Arial", style="B", size=16)
     pdf.cell(200, 10, txt="Catatan Rekomendasi Keuangan", ln=True, align='C')
     pdf.ln(10) 
 
@@ -265,7 +266,7 @@ def fiturSatu():
         )
 
     # Pilihan ekspor ke PDF
-    eksporKePDF = Prompt.ask("[bold bright_blue]Ekspor ke PDF?[/bold bright_blue]", 
+    eksporKePDF = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", 
                         choices=["y", "n"])
     if eksporKePDF.lower() == "y":
         eksporPDF(

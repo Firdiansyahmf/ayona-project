@@ -10,6 +10,7 @@ from matplotlib import pyplot as plt
 from matplotlib import style
 from rich.table import Table # Membuat Tabel
 from math import ceil  # Impor ceil
+import os
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -51,6 +52,67 @@ def tabelYo_Savers(
     )
 
     print(table)
+    
+# Ekspor PDF untuk Yo-Savers
+def eksporPDFYoSavers(
+    tanggalPerhitungan, hariMenabung, targetBesaranMenabung, 
+    jumlahPemasukanBersih, yoSaversHari, yoSaversMinggu, yoSaversBulan
+):
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    # Judul
+    pdf.set_font("Arial", style="B", size=16)
+    pdf.cell(200, 10, txt="Hasil Perhitungan Yo-Savers", ln=True, align="C")
+
+    # Konten
+    pdf.set_font("Arial", size=12)
+    pdf.ln(10)  # Jarak baris
+    pdf.cell(200, 10, txt=f"Tanggal Perhitungan: {tanggalPerhitungan}", ln=True)
+    pdf.cell(200, 10, txt=f"Hari Menabung: {hariMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Jumlah Pemasukan Bersih: {jumlahPemasukanBersih}", ln=True)
+    pdf.cell(200, 10, txt=f"Yo-Savers per Hari: {yoSaversHari}", ln=True)
+    pdf.cell(200, 10, txt=f"Yo-Savers per Minggu: {yoSaversMinggu}", ln=True)
+    pdf.cell(200, 10, txt=f"Yo-Savers per Bulan: {yoSaversBulan}", ln=True)
+    
+    #Simpan PDF
+    unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
+    nama_file_awal = "Catatan_Menabung_Yo-Savers"
+    
+    angka_urut = 1
+    while True:
+        nama_file = f"{nama_file_awal} ({angka_urut}).pdf"
+        lokasi_file = os.path.join(unduh_path, nama_file)
+        if not os.path.exists(lokasi_file):
+            break
+        angka_urut += 1
+
+    pdf.output(lokasi_file)
+    print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Savers.pdf'[/bold green]")
+    
+# Ekspor PDF untuk Yo-Goals
+def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    # Judul
+    pdf.set_font("Arial", style="B", size=16)
+    pdf.cell(200, 10, txt="Hasil Perhitungan Yo-Goals", ln=True, align="C")
+
+    # Konten
+    pdf.set_font("Arial", size=12)
+    pdf.ln(10)  # Jarak baris
+    pdf.cell(200, 10, txt=f"Besaran Menabung per Hari: {besaranMenabungHari}", ln=True)
+    pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Yo-Goals: {yoGoals} hari", ln=True)
+
+    # Simpan PDF
+    pdf.output("Catatan_Menabung_Yo-Goals.pdf")
 
 # Fungsi untuk mengecek apakah tahun adalah kabisat
 def tahunKabisat(tahun):
@@ -196,7 +258,7 @@ def fiturDua():
             break
 
     #Pilihan Yo-Savers dalam bentuk Tabel
-        tabel = Prompt.ask(f"\n [bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+        tabel = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
                     choices =["y","n"])
         if tabel.lower() == "y":
                 tabelYo_Savers(
@@ -208,6 +270,19 @@ def fiturDua():
                 formatRupiah(yoSaversMinggu), 
                 formatRupiah(yoSaversBulan)
         )
+    # Ekspor PDF untuk Yo-Savers
+    ekspor = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
+    if ekspor.lower() == "y":
+        eksporPDFYoSavers(
+            tanggalPerhitungan, 
+            hariMenabung, 
+            formatRupiah(targetBesaranMenabung), 
+            formatRupiah(jumlahPemasukanBersih), 
+            formatRupiah(yoSaversHari), 
+            formatRupiah(yoSaversMinggu), 
+            formatRupiah(yoSaversBulan)
+        )
+    
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
 
@@ -242,7 +317,16 @@ def fiturDua():
         console.print(f"[bold bright_white]Jumlah besaran menabung di setiap harinya\t: {formatRupiah(besaranMenabungHari)}[/bold bright_white]")
         console.print(f"[bold bright_white]Jumlah target besaran menabung\t\t\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
         console.print(f"[bold bright_white]Lama Anda perlu menabung\t\t\t: {yoGoals} hari[/bold bright_white]")
-    
+        
+        # Ekspor PDF untuk Yo-Goals
+        ekspor = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
+        if ekspor.lower() == "y":
+            eksporPDFYoGoals(
+                formatRupiah(besaranMenabungHari),
+                formatRupiah(targetBesaranMenabung),
+                yoGoals
+            )
+
     # Kembali ke Halaman Utama
     elif pilihanPerhitungan == "3":
         return True
