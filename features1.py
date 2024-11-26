@@ -103,7 +103,7 @@ def grafikLine(
 
     # Menampilkan Teks di dalam Grafiknya sesuai nilai Y
     for i, y in enumerate(y):
-        plt.text(i, y-10000, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
+        plt.text(i, y, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
 
     ax.set_title('Yo-Managements Graphsite by Ayona')
     ax.set_ylabel('JUMLAH / QTY')
@@ -256,6 +256,7 @@ def fiturSatu():
     # Pilihan untuk menampilkan Grafik
     tampilGrafik = Prompt.ask("[bold bright_blue]Lihat dalam bentuk grafik?[/bold bright_blue]", choices=["y","n"])
     if tampilGrafik.lower() == "y":
+        console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
         grafikLine(
             tipeWaktuPemasukan, 
             tanggalPemasukan, 
@@ -265,6 +266,8 @@ def fiturSatu():
             jumlahPengeluaran, 
             jumlahPemasukanBersih
         )
+        console.print("[bold bright_white]Jendela grafik ditutup.[/bold bright_white]")
+
 
     # Pilihan ekspor ke PDF
     eksporKePDF = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", 

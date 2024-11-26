@@ -11,6 +11,7 @@ from matplotlib import style
 from rich.table import Table # Membuat Tabel
 from math import ceil  # Impor ceil
 import os
+import math
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
@@ -34,16 +35,19 @@ def tabelYo_Savers(
     table = Table(title = "Tabel Yo-Savers")
 
     table.add_column ("Tanggal Perhitungan",justify = "center", style = "cyan", no_wrap = True)
-    table.add_column ("Lama Waktu Menabung", justify = "center", style = "magenta")
-    table.add_column ("Target Besaran Menabung", justify = "center", style = "green")
-    table.add_column ("Pemasukan Bersih Anda", justify = "center", style = "cyan")   
+    table.add_column ("Lama Waktu Menabung", justify = "center", style = "blue")
+    table.add_column ("Target Besaran Menabung", justify = "center", style = "#FFD700")
+    table.add_column ("Pemasukan Bersih Anda", justify = "center", style = "green")   
     table.add_column ("Menabung per Hari", justify = "center", style = "magenta") 
-    table.add_column ("Menabung per Minggu", justify = "center", style = "red")    
-    table.add_column ("Menabung per Bulan", justify = "center", style = "green")
+    table.add_column ("Menabung per Minggu", justify = "center", style = "magenta")    
+    table.add_column ("Menabung per Bulan", justify = "center", style = "magenta")
+
+    hari = int(hariMenabung)
+    lamaWaktuMenabung = str(hari) + " hari"
 
     table.add_row (
         str(tanggalPerhitungan),
-        str(hariMenabung),
+        str(lamaWaktuMenabung),
         str(targetBesaranMenabung), 
         str (jumlahPemasukanBersih), 
         str (yoSaversHari),
@@ -52,7 +56,56 @@ def tabelYo_Savers(
     )
 
     print(table)
+
+# Grafik untuk YO-Savers
+def grafikLineYoSavers(
+    tanggalPerhitungan,
+        hariMenabung,
+        targetBesaranMenabung,
+        jumlahPemasukanBersih,
+        yoSaversHari,
+        yoSaversMinggu,
+        yoSaversBulan
+):
     
+    # style.use('ggplot')
+    # x = Garis X horizontal, y = Garis Y veritikal
+    x = [0, 1, 2]
+    # pemasukanBersih = int(jumlahPemasukanBersih)
+    perHari = math.trunc(float(yoSaversHari))
+    perBulan = math.trunc(float(yoSaversBulan))
+    perMinggu = math.trunc(float(yoSaversMinggu))
+    y = [perHari, perMinggu, perBulan]
+    fig, ax = plt.subplots()
+
+    # Definisikan Grafik apa disini Grafiknya == Bar(Batang)
+    ax.bar(x, y, align='center',  color=['purple', 'purple', 'purple'])
+
+    # Menampilkan Teks di dalam Grafiknya sesuai nilai Y
+    for i, y in enumerate(y):
+        plt.text(i, y, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
+
+
+    hari = int(hariMenabung)
+    lamaWaktuMenabung = str(hari)
+
+    ax.set_title(f'Yo-Savers Graphsite by Ayona\nTarget Menabung Rp. {targetBesaranMenabung}. Dalam waktu {lamaWaktuMenabung} hari. Dengan pemasukan Rp. {jumlahPemasukanBersih}')
+    ax.set_ylabel('Perlu Disisihkan')
+    ax.set_xlabel('Rentang Waktu')
+
+    # Set Teks Label pada Garis X yang horizontal
+    ax.set_xticks(x)
+    # a = "Pemasukan Bersih"
+    a = "Per Hari"
+    b = "Per Minggu"
+    c = "Per Bulan"
+    ax.set_xticklabels((a, b, c))
+
+    # Menampilkan Grafik
+    # plt.grid(True)
+    plt.show()
+
+
 # Ekspor PDF untuk Yo-Savers
 def eksporPDFYoSavers(
     tanggalPerhitungan, hariMenabung, targetBesaranMenabung, 
@@ -264,7 +317,7 @@ def fiturDua():
             console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
             break
 
-    #Pilihan Yo-Savers dalam bentuk Tabel
+        # Pilihan Yo-Savers dalam bentuk Tabel
         tabel = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
                     choices =["y","n"])
         if tabel.lower() == "y":
@@ -276,7 +329,29 @@ def fiturDua():
                 formatRupiah(yoSaversHari),  
                 formatRupiah(yoSaversMinggu), 
                 formatRupiah(yoSaversBulan)
-        )
+            )
+                
+
+        # Konfirmasi untuk Menampilkan Grafik YO-SAVERS
+        tabel = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk grafik?[/bold bright_blue]", 
+                    choices =["y","n"])
+        
+        if tabel.lower() == "y":
+                console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
+                grafikLineYoSavers(
+                    tanggalPerhitungan,
+                    hariMenabung,
+                    targetBesaranMenabung,
+                    jumlahPemasukanBersih,
+                    yoSaversHari,
+                    yoSaversMinggu,
+                    yoSaversBulan
+                )
+                console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")
+
+
+                
+
         # Ekspor PDF untuk Yo-Savers
         eksporys = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
         if eksporys.lower() == "y":
