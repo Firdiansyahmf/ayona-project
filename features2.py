@@ -358,6 +358,25 @@ def fiturDua():
                     formatRupiah(yoSaversMinggu), 
                     formatRupiah(yoSaversBulan)
             )
+
+            # Pilihan Yo-Savers dalam bentuk Grafik
+            # Konfirmasi untuk Menampilkan Grafik YO-SAVERS
+            tabel = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk grafik?[/bold bright_blue]", 
+                    choices =["y","n"])
+        
+            if tabel.lower() == "y":
+                console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
+                grafikLineYoSavers(
+                    tanggalPerhitungan,
+                    hariMenabung,
+                    targetBesaranMenabung,
+                    jumlahPemasukanBersih,
+                    yoSaversHari,
+                    yoSaversMinggu,
+                    yoSaversBulan
+                )
+                console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")
+
                     
             # Ekspor PDF untuk Yo-Savers
             eksporys = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
