@@ -3,13 +3,13 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
-import os #Supaya file ekspor PDF terunduh di direktori downloads
 
 # Library
 from fpdf import FPDF  # Impor PDF
 from matplotlib import pyplot as plt
 from matplotlib import style
 from rich.table import Table #Membuat Tabel
+import os #Supaya file ekspor PDF terunduh di direktori downloads
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
