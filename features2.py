@@ -21,8 +21,8 @@ from utils import progressBar, formatRupiah, hitungJumlahPengeluaran
 # Buat objek Console dari pustaka Rich
 console = Console()
 
-#Fungsi membuat Tabel
-def tabelYo_Savers(
+# Fungsi tampilan tabel Yo-Savers
+def tabelYoSavers(
         tanggalPerhitungan,
         hariMenabung,
         targetBesaranMenabung,
@@ -45,18 +45,43 @@ def tabelYo_Savers(
         str(tanggalPerhitungan),
         str(hariMenabung),
         str(targetBesaranMenabung), 
-        str (jumlahPemasukanBersih), 
-        str (yoSaversHari),
-        str (yoSaversMinggu),
-        str (yoSaversBulan)
+        str(jumlahPemasukanBersih), 
+        str(yoSaversHari),
+        str(yoSaversMinggu),
+        str(yoSaversBulan)
+    )
+
+    print(table)
+
+#Fungsi tampilan tabel Yo-Goals
+def tabelYoGoals(
+    besaranMenabungHari,
+    targetBesaranMenabung,
+    yoGoals
+):
+    table = Table(title = "Tabel Yo-Goal")
+
+    table.add_column("Jumlah Besaran Menabung/hari",justify = "center", style = "cyan", no_wrap = True)
+    table.add_column("Target Besaran Menabung", justify = "center", style = "magenta")
+    table.add_column("Lama Waktu Menabung", justify = "center", style = "green")
+
+    table.add_row (
+        str(besaranMenabungHari),
+        str(targetBesaranMenabung),
+        str(yoGoals)
     )
 
     print(table)
     
 # Ekspor PDF untuk Yo-Savers
 def eksporPDFYoSavers(
-    tanggalPerhitungan, hariMenabung, targetBesaranMenabung, 
-    jumlahPemasukanBersih, yoSaversHari, yoSaversMinggu, yoSaversBulan
+    tanggalPerhitungan, 
+    hariMenabung, 
+    targetBesaranMenabung, 
+    jumlahPemasukanBersih, 
+    yoSaversHari, 
+    yoSaversMinggu, 
+    yoSaversBulan
 ):
 
     pdf = FPDF()
@@ -92,7 +117,11 @@ def eksporPDFYoSavers(
     print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Savers.pdf'[/bold green]")
     
 # Ekspor PDF untuk Yo-Goals
-def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
+def eksporPDFYoGoals(
+        besaranMenabungHari, 
+        targetBesaranMenabung, 
+        yoGoals
+):
 
     pdf = FPDF()
     pdf.add_page()
@@ -170,7 +199,7 @@ def fiturDua():
     # Panel
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
 
-    # Input tipe dan tanggal pemasukan
+    # Input Pilihan Menu
     console.print("[bold bright_cyan]1. Yo-Savers\n2. Yo-Goals\n[bold bright_yellow]3. Kembali[/bold bright_yellow][/bold bright_cyan]")
     pilihanPerhitungan = Prompt.ask("[bold bright_green]Pilih menu yang ingin Anda akses (1-2), atau pilih 3 untuk kembali[/bold bright_green]", 
                         choices=["1", "2", "3"])
@@ -262,33 +291,34 @@ def fiturDua():
             console.print(f"[bold bright_white]Dalam per hari\t\t: {formatRupiah(yoSaversHari)}/Hari[/bold bright_white]")
             console.print(f"[bold bright_white]Dalam per minggu\t: {formatRupiah(yoSaversMinggu)}/Minggu[/bold bright_white]")
             console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
-            break
 
-    #Pilihan Yo-Savers dalam bentuk Tabel
-        tabel = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
-                    choices =["y","n"])
-        if tabel.lower() == "y":
-                tabelYo_Savers(
-                tanggalPerhitungan, 
-                hariMenabung, 
-                formatRupiah(targetBesaranMenabung),
-                formatRupiah(jumlahPemasukanBersih), 
-                formatRupiah(yoSaversHari),  
-                formatRupiah(yoSaversMinggu), 
-                formatRupiah(yoSaversBulan)
-        )
-        # Ekspor PDF untuk Yo-Savers
-        eksporys = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
-        if eksporys.lower() == "y":
-            eksporPDFYoSavers(
-                tanggalPerhitungan, 
-                hariMenabung, 
-                formatRupiah(targetBesaranMenabung), 
-                formatRupiah(jumlahPemasukanBersih), 
-                formatRupiah(yoSaversHari), 
-                formatRupiah(yoSaversMinggu), 
-                formatRupiah(yoSaversBulan)
+            #Pilihan Yo-Savers dalam bentuk Tabel
+            tabelys = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+                               choices =["y","n"])
+            if tabelys.lower() == "y":
+                    tabelYoSavers(
+                    tanggalPerhitungan, 
+                    hariMenabung, 
+                    formatRupiah(targetBesaranMenabung),
+                    formatRupiah(jumlahPemasukanBersih), 
+                    formatRupiah(yoSaversHari),  
+                    formatRupiah(yoSaversMinggu), 
+                    formatRupiah(yoSaversBulan)
             )
+                    
+            # Ekspor PDF untuk Yo-Savers
+            eksporys = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
+            if eksporys.lower() == "y":
+                eksporPDFYoSavers(
+                    tanggalPerhitungan, 
+                    hariMenabung, 
+                    formatRupiah(targetBesaranMenabung), 
+                    formatRupiah(jumlahPemasukanBersih), 
+                    formatRupiah(yoSaversHari), 
+                    formatRupiah(yoSaversMinggu), 
+                    formatRupiah(yoSaversBulan)
+                )
+            break
     
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
@@ -325,6 +355,16 @@ def fiturDua():
         console.print(f"[bold bright_white]Jumlah target besaran menabung\t\t\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
         console.print(f"[bold bright_white]Lama Anda perlu menabung\t\t\t: {yoGoals} hari[/bold bright_white]")
         
+        #Pilihan Yo-Goals dalam bentuk Tabel
+        tabelyg = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+                            choices =["y","n"])
+        if tabelyg.lower() == "y":
+            tabelYoGoals(
+                formatRupiah(besaranMenabungHari),
+                formatRupiah(targetBesaranMenabung), 
+                f"{yoGoals} hari"
+            )     
+
         # Ekspor PDF untuk Yo-Goals
         eksporyg = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
         if eksporyg.lower() == "y":
