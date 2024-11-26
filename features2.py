@@ -63,22 +63,20 @@ def eksporPDFYoSavers(
     pdf.add_page()
     pdf.set_font("Arial", size=12)
 
-    # Judul
     pdf.set_font("Arial", style="B", size=16)
     pdf.cell(200, 10, txt="Hasil Perhitungan Yo-Savers", ln=True, align="C")
-
-    # Konten
+    
     pdf.set_font("Arial", size=12)
     pdf.ln(10)  # Jarak baris
     pdf.cell(200, 10, txt=f"Tanggal Perhitungan: {tanggalPerhitungan}", ln=True)
-    pdf.cell(200, 10, txt=f"Hari Menabung: {hariMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Lama Waktu Menabung: {hariMenabung} hari", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Jumlah Pemasukan Bersih: {jumlahPemasukanBersih}", ln=True)
-    pdf.cell(200, 10, txt=f"Yo-Savers per Hari: {yoSaversHari}", ln=True)
-    pdf.cell(200, 10, txt=f"Yo-Savers per Minggu: {yoSaversMinggu}", ln=True)
-    pdf.cell(200, 10, txt=f"Yo-Savers per Bulan: {yoSaversBulan}", ln=True)
+    pdf.cell(200, 10, txt=f"Jumlah uang yang harus anda sisihkan:   ", ln=True)
+    pdf.cell(200, 10, txt=f"Dalam per Hari: {yoSaversHari}/Hari", ln=True)
+    pdf.cell(200, 10, txt=f"Dalam per Minggu: {yoSaversMinggu}/Minggu", ln=True)
+    pdf.cell(200, 10, txt=f"Dalam per Bulan: {yoSaversBulan}/Bulan", ln=True)
     
-    #Simpan PDF
     unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
     nama_file_awal = "Catatan_Menabung_Yo-Savers"
     
@@ -100,19 +98,28 @@ def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
     pdf.add_page()
     pdf.set_font("Arial", size=12)
 
-    # Judul
     pdf.set_font("Arial", style="B", size=16)
     pdf.cell(200, 10, txt="Hasil Perhitungan Yo-Goals", ln=True, align="C")
 
-    # Konten
     pdf.set_font("Arial", size=12)
     pdf.ln(10)  # Jarak baris
     pdf.cell(200, 10, txt=f"Besaran Menabung per Hari: {besaranMenabungHari}", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Yo-Goals: {yoGoals} hari", ln=True)
 
-    # Simpan PDF
-    pdf.output("Catatan_Menabung_Yo-Goals.pdf")
+    unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
+    nama_file_awal = "Catatan_Menabung_Yo-Goals"
+    
+    angka_urut = 1
+    while True:
+        nama_file = f"{nama_file_awal} ({angka_urut}).pdf"
+        lokasi_file = os.path.join(unduh_path, nama_file)
+        if not os.path.exists(lokasi_file):
+            break
+        angka_urut += 1
+
+    pdf.output(lokasi_file)
+    print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Goals.pdf'[/bold green]")
 
 # Fungsi untuk mengecek apakah tahun adalah kabisat
 def tahunKabisat(tahun):
