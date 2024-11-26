@@ -194,6 +194,7 @@ jumlahPemasukanBersih = None
 Fitur 1
 (main)
 """
+
 def fiturSatu():
     # Panel
     print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
