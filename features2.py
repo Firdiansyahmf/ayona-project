@@ -142,6 +142,11 @@ def grafikLineYoGoals(
         kenaikan_tabungan = kenaikan_tabungan + besaranMenabungHari
         y.append(kenaikan_tabungan)
         x.append(f'Hari ke-{data_y + 1}')
+        plt.text(
+            data_y, y[data_y],  # Posisi Koordinat Titik
+            f"Rp.{math.trunc(y[data_y])}",  # Nilai di setiap titik
+            fontsize=9, color='green', ha='center', va='bottom'
+        )
     
     plt.plot(x, y, marker='o', label='Progres Menabung')
     # Garis Horizontal pda Puncak Nilai (Nilai maksimmum)
