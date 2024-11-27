@@ -126,6 +126,41 @@ def grafikLineYoSavers(
     plt.show()
 
 
+# Grafik untuk YO-Golas
+def grafikLineYoGoals(
+        besaranMenabungHari, 
+        targetBesaranMenabung, 
+        yoGoals
+):  
+    x = []
+    y = []
+    # Y menentukan Garis yang akan terbentuk dari nilai Y label
+    # X menentukan Tulisan yang akan menjadi acuan dimana titik
+    # itu akan terpotong/terubah/menukik dan melanjutkan ke arah nilai selanjutnya 
+    kenaikan_tabungan = 0
+    for data_y in range(yoGoals):
+        kenaikan_tabungan = kenaikan_tabungan + besaranMenabungHari
+        y.append(kenaikan_tabungan)
+        x.append(f'Hari ke-{data_y + 1}')
+    
+    plt.plot(x, y, marker='o', label='Progres Menabung')
+    # Garis Horizontal pda Puncak Nilai (Nilai maksimmum)
+    plt.axhline(y=targetBesaranMenabung, color='r', linestyle='-', label='Target Menabung')
+
+    
+    plt.plot(x, y)
+
+    # Memberi Label untuk garis
+    plt.xlabel('Progress Hari')
+    plt.ylabel('Kenaikan Tabungan')
+
+    plt.title(f'Yo-Goals Graphsite by Ayona \nTarget menabung {targetBesaranMenabung} dalam {yoGoals} Hari') # Judul Grafik
+    plt.grid(True) # Memberi Aksen kotak-kotak
+    
+    plt.legend()
+    plt.show()
+
+
 # Ekspor PDF untuk Yo-Savers
 def eksporPDFYoSavers(
     tanggalPerhitungan, 
@@ -360,11 +395,10 @@ def fiturDua():
             )
 
             # Pilihan Yo-Savers dalam bentuk Grafik
-            # Konfirmasi untuk Menampilkan Grafik YO-SAVERS
-            tabel = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk grafik?[/bold bright_blue]", 
+            grafikYs = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", 
                     choices =["y","n"])
         
-            if tabel.lower() == "y":
+            if grafikYs.lower() == "y":
                 console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
                 grafikLineYoSavers(
                     tanggalPerhitungan,
@@ -435,7 +469,20 @@ def fiturDua():
                 formatRupiah(besaranMenabungHari),
                 formatRupiah(targetBesaranMenabung), 
                 f"{yoGoals} hari"
-            )     
+            )
+
+        # Pilihan Yo-Goals dalam bentuk Grafik
+        grafikYg = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", 
+                choices =["y","n"])
+        
+        if grafikYg.lower() == "y":
+            console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
+            grafikLineYoGoals(
+                besaranMenabungHari,
+                targetBesaranMenabung,
+                yoGoals
+            )
+            console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")     
 
         # Ekspor PDF untuk Yo-Goals
         eksporyg = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
