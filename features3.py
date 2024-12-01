@@ -19,7 +19,7 @@ def fiturTiga():
     console.print(Panel("Bantuan Pengguna", style="bold bright_cyan", width=20))
 
     # Input Pilihan Menu
-    console.print("[bold bright_cyan]1. Panduan Fitur Yo-Managements\n2. Panduang Fitur Perhitungan Tabungan\n3. Panduan Mengunduh Catatan Rekomendasi Keuangan/Catatan Menabung\n[bold bright_yellow]4. Kembali[/bold bright_yellow][/bold bright_cyan]")  
+    console.print("[bold bright_cyan]1. Panduan Fitur Yo-Managements\n2. Panduan Fitur Perhitungan Tabungan\n3. Panduan Mengunduh Catatan Rekomendasi Keuangan/Catatan Menabung\n[bold bright_yellow]4. Kembali[/bold bright_yellow][/bold bright_cyan]")  
     pilihanMenu = Prompt.ask("[bold bright_green]Pilih menu yang ingin Anda akses (1-3), atau pilih 4 untuk kembali[/bold bright_green]",
                              choices=["1","2","3","4"]) 
 
@@ -29,8 +29,14 @@ def fiturTiga():
     if pilihanMenu == "1":
         console.print(Panel("Panduan Yo-Managements", style="bold bright_white", width=26))
        
-        # Taruh panduan disini
-        
+        # Panduan Yo-Management
+        console.print("1. Pilih fitur Yo-Management di Menu Utama", style= "bright_white")
+        console.print("2. Isi Form Data Keuangan Yo-Management.",  style= "bright_white")
+        console.print("   ketik 'hitung' jika ingin mengakumulasi jumlah item dan ketik 'selesai' jika sudah selesai", style= "bright_yellow")
+        console.print("3. Setelah semua data dimasukkan, sistem akan menghitung dan menampilkan catatan rekomendasi keuangan", style= "bright_white")
+        console.print("4. Anda bisa melihat catatan rekomendasi keuangan dalam bentuk tabel dengan mengetik 'y' atau 'n'", style= "bright_white")
+        console.print("5. Anda bisa melihat catatan rekomendasi keuangan dalam bentuk grafik dengan mengetik 'y' atau 'n'.", style= "bright_white")
+        console.print("6. Anda bisa mengekspor catatan rekomendasi keuangan dalam bentuk pdf dengan mengetik 'y' atau 'n'", style= "bright_white")
 
     elif pilihanMenu == "2":
         console.print(Panel("Panduan Perhitungan Tabungan", style="bold bright_white", width=30))
