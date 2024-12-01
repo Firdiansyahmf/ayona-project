@@ -41,22 +41,23 @@ def fiturTiga():
     elif pilihanMenu == "2":
         console.print(Panel("Panduan Perhitungan Tabungan", style="bold bright_white", width=30))
         
-        # Taruh panduan disini
+        # Tampilan Panduan Yo-Savers dan Yo-Goals
         console.print("1. Pilih fitur Perhitungan Tabungan di Menu Utama", style= "bright_white")
         console.print("2. Terdapat 2 pilihan, yaitu 'Yo-Savers' dan 'Yo-Goals'", style= "bright_white")
         console.print("3. Jika Anda memilih Yo-Savers, maka Anda akan mengisi formulir keuangan Yo-Savers. Hal yang sama berlaku jika Anda memilih Yo-Goals", style= "bright_white")
         console.print("   Perbedaan 'Yo-Savers' dan 'Yo-Goals':",  style= "bright_yellow")
         console.print("   'Yo-Savers' digunakan untuk menghitung jumlah uang yang perlu ditabung per hari, minggu, dan bulan, sesuai dengan pilihan Anda", style= "bright_green")
         console.print("   'Yo-Goals' digunakan untuk menentukan durasi menabung", style= "bright_green")
-        console.print("4. Anda bisa melihat catatan Yo-Savers dan Yo-Goals dalam bentuk tabel dengan mengetik 'y' atau 'n'", style= "bright_white")
-        console.print("5. Anda bisa melihat catatan Yo-Savers dan Yo-Goals dalam bentuk grafik dengan mengetik 'y' atau 'n'", style= "bright_white")
-        console.print("6. Anda bisa mengekspor catatan Yo-Savers dan Yo-Goals dalam bentuk pdf dengan mengetik 'y' atau 'n'", style= "bright_white")
+        console.print("4. Anda bisa melihat Catatan Menabung dalam bentuk tabel dengan mengetik 'y' atau 'n'", style= "bright_white")
+        console.print("5. Anda bisa melihat Catatan Menabung dalam bentuk grafik dengan mengetik 'y' atau 'n'", style= "bright_white")
+        console.print("6. Anda bisa mengekspor Catatan Menabung dalam bentuk pdf dengan mengetik 'y' atau 'n'", style= "bright_white")
 
     elif pilihanMenu == "3":
         console.print(Panel("Panduan Mengunduh Catatan Rekomendasi Keuangan/Catatan Menabung", style="bold bright_white", width=38))
         
-        # Taruh panduan disini
-
+        # Panduan mengunduh catatan rekomendasi keuangan atau menabung ke pdf
+        console.print("^ Anda bisa mengekspor catatan rekomendasi keuangan dalam bentuk pdf dengan mengetik 'y' atau 'n' di fitur 'Yo-Management'", style= "bright_white")
+        console.print("^ Anda bisa mengekspor Catatan Menabung dalam bentuk pdf dengan mengetik 'y' atau 'n' di fitur 'Yo-Savers' dan 'Yo-Goals'", style= "bright_white")
 
     elif pilihanMenu == "4":
         return True
