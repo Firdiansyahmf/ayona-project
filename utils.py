@@ -9,6 +9,10 @@ from rich.prompt import Prompt  # Input interaktif
 # Buat objek Console dari pustaka Rich
 console = Console()
 
+#Inisialisasi variable global
+untukCatatan = None
+arrPengeluaran = None
+
 # Fungsi Progress Bar
 def progressBar():
     for _ in track(range(2), description="[bold green]Memuat..."):
@@ -28,8 +32,11 @@ def formatRupiah(nilai):
     # Format bagian integer dengan pemisah ribuan
     formatBagianInt = "{:,}".format(int(bagianInt)).replace(",", ".")
 
-    # Gabungkan kembali bagian integer dan desimal
-    hasil = f"Rp{formatBagianInt},{bagianDecimal}"
+    # Untuk Bagian Desimal
+    if int(bagianDecimal) == 0:
+        hasil = hasil = f"Rp{formatBagianInt}"
+    else:
+        hasil = f"Rp{formatBagianInt},{bagianDecimal}"
 
     # Tambahkan tanda negatif jika nilai awalnya negatif
     if nilaiNegatif:
@@ -80,24 +87,65 @@ def inputTanggal(tipeTanggal):
 # Fungsi untuk hitung jumlah pengeluaran
 def hitungJumlahPengeluaran():
     jumlahPengeluaran = 0
+    global untukCatatan
     while True:
         tanyaMetodeInputPengeluaran = Prompt.ask("[bold bright_green]Masukkan jumlah pengeluaran, [bold bright_black]atau ketik 'hitung' untuk menghitung total dari item[/bold bright_black][/bold bright_green]")
         if tanyaMetodeInputPengeluaran.isdigit():
             jumlahPengeluaran = float(tanyaMetodeInputPengeluaran)
+            untukCatatan = False
             break
         elif tanyaMetodeInputPengeluaran.lower() == "hitung":
-            listPengeluaran = []
+            global arrPengeluaran
+            arrPengeluaran = []
             console.print("[bold bright_yellow]Masukkan pengeluaran satu per satu. [bold bright_black]Ketik 'selesai' jika sudah.[/bold bright_black][/bold bright_yellow]")
             while True:
                 inputPengeluaran = Prompt.ask("[bold bright_yellow]Masukkan pengeluaran[/bold bright_yellow]")
                 if inputPengeluaran.isdigit():
-                    listPengeluaran.append(float(inputPengeluaran))
+                    arrPengeluaran.append(float(inputPengeluaran))
                 elif inputPengeluaran.lower() == "selesai":
                     break
                 else:
                     console.print("[bold bright_red]Input tidak valid. Harap masukkan angka.[/bold bright_red]")
-            jumlahPengeluaran = sum(listPengeluaran)
+            jumlahPengeluaran = sum(arrPengeluaran)
+            untukCatatan = True
             break
         else:
             console.print("[bold bright_red]Input tidak valid. Harap masukkan angka atau ketik 'hitung'.[/bold bright_red]")
     return jumlahPengeluaran
+
+# Fungsi untuk Sorting data Kecil-Besar
+def quickSort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[0]
+        left = [x for x in arr[1:] if x <= pivot]
+        right = [x for x in arr[1:] if x > pivot]
+        return quickSort(left) + [pivot] + quickSort(right)
+    
+# Fungsi untuk Sorting data Besar-Kecil
+def quickSortDesc(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[0]
+        left = [x for x in arr[1:] if x > pivot]
+        right = [x for x in arr[1:] if x <= pivot]
+        return quickSortDesc(left) + [pivot] + quickSortDesc(right)
+    
+# Fungsi untuk Searching data
+def linearSearch(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1
+
+"""
+arr = [10, 15, 30, 70, 80, 60, 20, 90, 40]
+target = 20
+hasil = linearSearch(arr, target)
+if hasil != -1:
+    print(f"Linear Search: Elemen ditemukan di index {hasil}")
+else:
+    print("Linear Search: Elemen tidak ditemukan")
+"""

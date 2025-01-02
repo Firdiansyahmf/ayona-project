@@ -4,18 +4,19 @@ from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
 
-# Library
+# Library Lainnya
 from fpdf import FPDF  # Impor PDF
 from matplotlib import pyplot as plt
 from matplotlib import style
 from rich.table import Table #Membuat Tabel
+from matplotlib.ticker import FuncFormatter
 import os #Supaya file ekspor PDF terunduh di direktori downloads
 
 # Standar Pustaka Python (datetime)
 from datetime import datetime
 
 # Impor fungsi progressBar, formatRupiah, inputTanggal, hitungJumlahPengeluaran
-from utils import progressBar, formatRupiah, inputTanggal, hitungJumlahPengeluaran
+from utils import progressBar, formatRupiah, inputTanggal, hitungJumlahPengeluaran, quickSort, quickSortDesc
 
 # Buat objek Console dari pustaka Rich
 console = Console()
@@ -30,54 +31,25 @@ def tabelKeuangan (
         jumlahPengeluaranRp, 
         jumlahPemasukanBersihRp
 ):
-
     table = Table(title = "Catatan Rekomendasi Keuangan")
-
-    table.add_column ("Tipe Waktu Pemasukan",justify = "center", style = "cyan", no_wrap = True)
+    table.add_column ("Tipe Waktu Pemasukan", justify = "center", style = "cyan", no_wrap = True)
     table.add_column ("Tanggal Pemasukan", justify = "center", style = "magenta")
     table.add_column ("Jumlah Pemasukan", justify = "center", style = "green")
     table.add_column ("Tipe Waktu Pengeluaran", justify = "center", style = "cyan")   
     table.add_column ("Tanggal Pengeluaran", justify = "center", style = "magenta") 
     table.add_column ("Jumlah Pengeluaran", justify = "center", style = "red")    
     table.add_column ("Jumlah Pemasukan Bersih", justify = "center", style = "green")
-
     table.add_row (
         str(tipeWaktuPemasukan),
         str(tanggalPemasukan),
         str(jumlahPemasukanRp), 
-        str (tipeWaktuPengeluaran), 
-        str (tanggalPengeluaran),
-        str (jumlahPengeluaranRp),
-        str (jumlahPemasukanBersihRp)
+        str(tipeWaktuPengeluaran), 
+        str(tanggalPengeluaran),
+        str(jumlahPengeluaranRp),
+        str(jumlahPemasukanBersihRp)
     )
-
     print(table)
     
-def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan):
-    if tipeWaktuPemasukan == "hari":
-        persentase_tabungan = 0.05  # 5% untuk pemasukan harian
-    elif tipeWaktuPemasukan == "minggu":
-        persentase_tabungan = 0.10  # 10% untuk pemasukan mingguan
-    elif tipeWaktuPemasukan == "bulan":
-        persentase_tabungan = 0.20  # 20% untuk pemasukan bulanan
-    elif tipeWaktuPemasukan == "tahun":
-        persentase_tabungan = 0.20  # 20% untuk pemasukan tahunan
-    else:
-        persentase_tabungan = 0.20  # Default 20% jika tipe tidak dikenal
-    
-    tabungan_disarankan = jumlahPemasukan * persentase_tabungan
-    sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
-
-    # Menampilkan saran keuangan
-    print(f"\n[bold green]Saran Tabungan:[/bold green] Sisihkan [bold bright_cyan] {persentase_tabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
-    print(f"[bold green]Tabungan yang disarankan:[/bold green] [bold bright_cyan] {formatRupiah(tabungan_disarankan)} [/bold bright_cyan]")
-    print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisa_pemasukan)} [/bold bright_cyan]")
-
-    if sisa_pemasukan > 0:
-        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
-    else:
-        print(f"[bold red]Peringatan:[/bold red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
-
 # Fungsi untuk membuat grafik
 def grafikLine(
     tipeWaktuPemasukan, 
@@ -88,7 +60,6 @@ def grafikLine(
     jumlahPengeluaran, 
     jumlahPemasukanBersih
 ):
-    
     # style.use('ggplot')
     # x = Garis X horizontal, y = Garis Y veritikal
     x = [0, 1, 2]
@@ -102,22 +73,28 @@ def grafikLine(
     ax.bar(x, y, align='center',  color=['blue', 'red', 'green'])
 
     # Menampilkan Teks di dalam Grafiknya sesuai nilai Y
-    for i, y in enumerate(y):
-        plt.text(i, y, f'{y:,}', ha='center', va='bottom', color='black', fontsize=10)
+    for i, val in enumerate(y):
+        # Menggunakan fungsi formatRupiah untuk memformat angka
+        formattedValue = formatRupiah(val)
+        plt.text(i, val, f'{formattedValue}', ha='center', va='bottom', color='black', fontsize=10)
 
     ax.set_title('Yo-Managements Graphsite by Ayona')
     ax.set_ylabel('JUMLAH / QTY')
     ax.set_xlabel('GRAFIK KAS')
 
     # Set Teks Label pada Garis X yang horizontal
-    ax.set_xticks(x)
     a = "Pemasukan pada \n" + tanggalPemasukan
-    b = "Pengerluaran pada \n" + tanggalPengeluaran
+    b = "Pengeluaran pada \n" + tanggalPengeluaran
     c = "Pemasukan Bersih"
+    ax.set_xticks(x)
     ax.set_xticklabels((a, b, c))
 
+    # Format label pada sumbu Y
+    def rupiah_formatter(x, pos):
+        return formatRupiah(x)
+    ax.yaxis.set_major_formatter(FuncFormatter(rupiah_formatter))
+
     # Menampilkan Grafik
-    # plt.grid(True)
     plt.show()
 
 #Fungsi untuk mengekspor catatan rekomendasi keuangan ke PDF
@@ -136,22 +113,20 @@ def eksporPDF(
 
     #Menentukan persentase tabungan sesuai tipe waktu pemasukan
     if tipeWaktuPemasukan == "hari":
-        persentase_tabungan = 0.05  # 5% untuk pemasukan harian
+        persentaseTabungan = 0.05  # 5% untuk pemasukan harian
     elif tipeWaktuPemasukan == "minggu":
-        persentase_tabungan = 0.10  # 10% untuk pemasukan mingguan
+        persentaseTabungan = 0.10  # 10% untuk pemasukan mingguan
     elif tipeWaktuPemasukan == "bulan":
-        persentase_tabungan = 0.20  # 20% untuk pemasukan bulanan
+        persentaseTabungan = 0.20  # 20% untuk pemasukan bulanan
     elif tipeWaktuPemasukan == "tahun":
-        persentase_tabungan = 0.20  # 20% untuk pemasukan tahunan
+        persentaseTabungan = 0.20  # 20% untuk pemasukan tahunan
     else:
-        persentase_tabungan = 0.20  # Default 20% jika tipe tidak dikenal
+        persentaseTabungan = 0.20  # Default 20% jika tipe tidak dikenal
 
-    tabungan_disarankan = jumlahPemasukan * persentase_tabungan
-    sisa_pemasukan = jumlahPemasukanBersih - tabungan_disarankan
-
+    tabunganDisarankan = jumlahPemasukan * persentaseTabungan
+    sisaPemasukan = jumlahPemasukanBersih - tabunganDisarankan
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12) 
     
     #Header
     pdf.set_font("Arial", style="B", size=16)
@@ -159,6 +134,7 @@ def eksporPDF(
     pdf.ln(10) 
 
     #Detail Ekspor
+    pdf.set_font("Arial", size=12) 
     pdf.cell(0, 10, txt=f"Tipe waktu pemasukan : {tipeWaktuPemasukan}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Tanggal pemasukan : {tanggalPemasukan}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Jumlah pemasukan Anda : {jumlahPemasukanRp}", ln=True, align='L')
@@ -166,35 +142,55 @@ def eksporPDF(
     pdf.cell(0, 10, txt=f"Tanggal pengeluaran : {tanggalPengeluaran}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Jumlah pengeluaran Anda : {jumlahPengeluaranRp}", ln=True, align='L')
     pdf.cell(0, 10, txt=f"Pemasukan bersih Anda : {jumlahPemasukanBersihRp}", ln=True, align='L')
-    pdf.cell(0, 10, txt=f"Saran tabungan: Sisihkan {persentase_tabungan*100}% dari pemasukan Anda untuk tabungan investasi atau pengeluaran darurat.", ln=True, align='L')
-    pdf.cell(0, 10, txt=f"Tabungan yang disarankan: Rp{tabungan_disarankan:,.2f}", ln=True, align='L')
-    
-    #Format sisa pemasukan menggunakan formatRupiah
-    pdf.cell(0, 10, txt=f"Sisa uang setelah ditabung: {formatRupiah(sisa_pemasukan)}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Saran tabungan: Sisihkan {persentaseTabungan*100}% dari pemasukan Anda untuk tabungan investasi/pengeluaran darurat.", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Tabungan yang disarankan: {formatRupiah(tabunganDisarankan)}", ln=True, align='L')
+    pdf.cell(0, 10, txt=f"Sisa uang setelah ditabung: {formatRupiah(sisaPemasukan)}", ln=True, align='L')
 
     #Simpan PDF
-    unduh_path = os.path.join(os.path.expanduser("~"), "Downloads")
-    nama_file_awal = "Catatan_Rekomendasi_Keuangan"
-    
-    angka_urut = 1
+    unduhPath = os.path.join(os.path.expanduser("~"), "Downloads")
+    namaFileAwal = "Catatan_Rekomendasi_Keuangan"
+    angkaUrut = 1
     while True:
-        nama_file = f"{nama_file_awal} ({angka_urut}).pdf"
-        lokasi_file = os.path.join(unduh_path, nama_file)
-        if not os.path.exists(lokasi_file):
+        namaFile = f"{namaFileAwal} ({angkaUrut}).pdf"
+        lokasiFile = os.path.join(unduhPath, namaFile)
+        if not os.path.exists(lokasiFile):
             break
-        angka_urut += 1
+        angkaUrut += 1
 
-    pdf.output(lokasi_file)
+    pdf.output(lokasiFile)
     print(f"Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
-#Inisialisasi varibale global
+# Fungsi untuk membuat saran keuangan
+def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan):
+    if tipeWaktuPemasukan == "hari":
+        persentaseTabungan = 0.05  # 5% untuk pemasukan harian
+    elif tipeWaktuPemasukan == "minggu":
+        persentaseTabungan = 0.10  # 10% untuk pemasukan mingguan
+    elif tipeWaktuPemasukan == "bulan":
+        persentaseTabungan = 0.20  # 20% untuk pemasukan bulanan
+    elif tipeWaktuPemasukan == "tahun":
+        persentaseTabungan = 0.20  # 20% untuk pemasukan tahunan
+    else:
+        persentaseTabungan = 0.20  # Default 20% jika tipe tidak dikenal
+    tabunganDisarankan = jumlahPemasukan * persentaseTabungan
+    sisaPemasukan = jumlahPemasukanBersih - tabunganDisarankan
+
+    # Menampilkan saran keuangan
+    print(f"\n[bold green]Saran Tabungan:[/bold green] Sisihkan [bold bright_cyan] {persentaseTabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
+    print(f"[bold green]Tabungan yang disarankan:[/bold green] [bold bright_cyan] {formatRupiah(tabunganDisarankan)} [/bold bright_cyan]")
+    print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisaPemasukan)} [/bold bright_cyan]")
+    if sisaPemasukan > 0:
+        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
+    else:
+        print(f"[bold red]Peringatan:[/bold red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
+
+#Inisialisasi variable global
 jumlahPemasukanBersih = None
 
 """
 Fitur 1
 (main)
 """
-
 def fiturSatu():
     # Panel
     print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
@@ -236,7 +232,28 @@ def fiturSatu():
     print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_cyan]")
     print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_cyan]")
     
-    #Fitur Saran Keuangan
+    # Impor variabel global
+    from utils import untukCatatan, arrPengeluaran
+
+    # Rincian Pengeluaran (Konsisi 2/2)
+    if untukCatatan == True:
+        print(f"[bold bright_cyan]\nRincian Pengeluaran:[/bold bright_cyan]")
+        while True:
+            # Tampilkan Default
+            for record in arrPengeluaran:
+                print(f"[bold bright_cyan]{formatRupiah(record)}[/bold bright_cyan]")
+            # Sorting
+            sorting = Prompt.ask(f"[bold bright_blue]Sorting rincian pengeluaran?\n Ketik '1' untuk sorting dari terkecil dan '2' dari terbesar/ketik 'n' jika tidak[/bold bright_blue]", choices=["1","2","n"])
+            if sorting == "1":
+                print(f"[bold bright_cyan]\nRincian Pengeluaran dari Terkecil:[/bold bright_cyan]")
+                arrPengeluaran = quickSort(arrPengeluaran)
+            elif sorting == "2":
+                print(f"[bold bright_cyan]\nRincian Pengeluaran dari Terbesar:[/bold bright_cyan]")
+                arrPengeluaran = quickSortDesc(arrPengeluaran)
+            elif sorting.lower() == "n":
+                break
+
+    # Saran Keuangan
     saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
