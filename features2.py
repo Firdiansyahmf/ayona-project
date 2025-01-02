@@ -247,6 +247,8 @@ def eksporPDFYoGoals(namaTargetMenabung, besaranMenabungHari, targetBesaranMenab
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Besaran Menabung Setiap Hari: {besaranMenabungHari}", ln=True)
+    pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Besaran Menabung Setiap Hari: {besaranMenabungHari}", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Lama Anda Perlu menabung: {yoGoals} hari", ln=True)
 
