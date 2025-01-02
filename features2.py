@@ -237,7 +237,7 @@ def eksporPDFYoSavers(
     print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Savers.pdf'[/bold green]")
     
 # Ekspor PDF untuk Yo-Goals
-def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
+def eksporPDFYoGoals(namaTargetMenabung, besaranMenabungHari, targetBesaranMenabung, yoGoals):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=16)
@@ -245,6 +245,7 @@ def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
     pdf.set_font("Arial", size=12)
     pdf.ln(10)  # Jarak baris
     pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Besaran Menabung setiap Hari: {besaranMenabungHari}", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
     pdf.cell(200, 10, txt=f"Lama anda perlu menabung: {yoGoals} hari", ln=True)
@@ -573,7 +574,7 @@ def fiturDua():
         # Ekspor PDF untuk Yo-Goals
         eksporyg = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
         if eksporyg.lower() == "y":
-            eksporPDFYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), yoGoals)
+            eksporPDFYoGoals(namaTargetMenabung, formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), yoGoals)
 
     # Kembali ke Halaman Utama
     elif pilihanPerhitungan == "3":
