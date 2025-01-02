@@ -246,9 +246,9 @@ def eksporPDFYoGoals(namaTargetMenabung, besaranMenabungHari, targetBesaranMenab
     pdf.ln(10)  # Jarak baris
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
-    pdf.cell(200, 10, txt=f"Besaran Menabung setiap Hari: {besaranMenabungHari}", ln=True)
+    pdf.cell(200, 10, txt=f"Besaran Menabung Setiap Hari: {besaranMenabungHari}", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
-    pdf.cell(200, 10, txt=f"Lama anda perlu menabung: {yoGoals} hari", ln=True)
+    pdf.cell(200, 10, txt=f"Lama Anda Perlu Menabung: {yoGoals} hari", ln=True)
 
     #Simpan PDF
     unduhPath = os.path.join(os.path.expanduser("~"), "Downloads")
