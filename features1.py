@@ -176,13 +176,13 @@ def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tip
     sisaPemasukan = jumlahPemasukanBersih - tabunganDisarankan
 
     # Menampilkan saran keuangan
-    print(f"\n[bold green]Saran Tabungan:[/bold green] Sisihkan [bold bright_cyan] {persentaseTabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
-    print(f"[bold green]Tabungan yang disarankan:[/bold green] [bold bright_cyan] {formatRupiah(tabunganDisarankan)} [/bold bright_cyan]")
-    print(f"[bold red]Sisa uang setelah ditabung:[/bold red] [bold bright_cyan] {formatRupiah(sisaPemasukan)} [/bold bright_cyan]")
+    print(f"\n[bold bright_white]Saran Tabungan:[/bold bright_white] Sisihkan [bold bright_cyan] {persentaseTabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
+    print(f"[bold bright_white]Tabungan yang disarankan:[/bold bright_white] [bold bright_cyan] {formatRupiah(tabunganDisarankan)} [/bold bright_cyan]")
+    print(f"[bold bright_white]Sisa uang setelah ditabung:[/bold bright_white] [bold bright_cyan] {formatRupiah(sisaPemasukan)} [/bold bright_cyan]")
     if sisaPemasukan > 0:
-        print(f"[bold green]Rekomendasi:[/bold green] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
+        print(f"[bold bright_cyan]Rekomendasi:[/bold bright_cyan] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
     else:
-        print(f"[bold red]Peringatan:[/bold red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
+        print(f"[bold bright_red]Peringatan:[/bold bright_red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
 
 #Inisialisasi variable global
 jumlahPemasukanBersih = None
@@ -196,13 +196,13 @@ def fiturSatu():
     print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
 
     # Input tipe dan tanggal pemasukan
-    tipeWaktuPemasukan = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pemasukan[/bold bright_green]", 
+    tipeWaktuPemasukan = Prompt.ask("[bold bright_cyan]Masukkan tipe waktu untuk pemasukan[/bold bright_cyan]", 
                                     choices=["hari", "minggu", "bulan", "tahun"])
     tanggalPemasukan = inputTanggal("pemasukan")
 
     # Input jumlah pemasukan
     while True:
-        jumlahPemasukan = Prompt.ask("[bold bright_green]Masukkan jumlah pemasukan[/bold bright_green]")
+        jumlahPemasukan = Prompt.ask("[bold bright_cyan]Masukkan jumlah pemasukan[/bold bright_cyan]")
         if jumlahPemasukan.isdigit():
             jumlahPemasukan = float(jumlahPemasukan)
             break
@@ -210,7 +210,7 @@ def fiturSatu():
             print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
 
     # Input tipe dan tanggal pengeluaran
-    tipeWaktuPengeluaran = Prompt.ask("[bold bright_green]Masukkan tipe waktu untuk pengeluaran[/bold bright_green]", 
+    tipeWaktuPengeluaran = Prompt.ask("[bold bright_cyan]Masukkan tipe waktu untuk pengeluaran[/bold bright_cyan]", 
                                     choices=["hari", "minggu", "bulan", "tahun"])
     tanggalPengeluaran = inputTanggal("pengeluaran")
 
@@ -224,31 +224,31 @@ def fiturSatu():
     # Tampilkan catatan rekomendasi keuangan
     progressBar()
     print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
-    print(f"[bold bright_cyan]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_cyan]")
-    print(f"[bold bright_cyan]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_cyan]")
+    print(f"[bold bright_white]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_white]")
+    print(f"[bold bright_white]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_white]")
+    print(f"[bold bright_white]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_white]")
+    print(f"[bold bright_white]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_white]")
+    print(f"[bold bright_white]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_white]")
+    print(f"[bold bright_white]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_white]")
+    print(f"[bold bright_white]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_white]")
     
     # Impor variabel global
     from utils import untukCatatan, arrPengeluaran
 
     # Rincian Pengeluaran (Konsisi 2/2)
     if untukCatatan == True:
-        print(f"[bold bright_cyan]\nRincian Pengeluaran:[/bold bright_cyan]")
+        print(f"[bold bright_yellow]\nRincian Pengeluaran:[/bold bright_yellow]")
         while True:
             # Tampilkan Default
             for record in arrPengeluaran:
-                print(f"[bold bright_cyan]{formatRupiah(record)}[/bold bright_cyan]")
+                print(f"[bold bright_yellow]{formatRupiah(record)}[/bold bright_yellow]")
             # Sorting
-            sorting = Prompt.ask(f"[bold bright_blue]Sorting rincian pengeluaran?\n Ketik '1' untuk sorting dari terkecil dan '2' dari terbesar/ketik 'n' jika tidak[/bold bright_blue]", choices=["1","2","n"])
+            sorting = Prompt.ask(f"[bold bright_cyan]Sorting rincian pengeluaran?\n[bold bright_dark]Ketik '1' untuk sorting dari terkecil dan '2' dari terbesar atau ketik 'n' jika tidak[/bold bright_dark][/bold bright_cyan]", choices=["1","2","n"])
             if sorting == "1":
-                print(f"[bold bright_cyan]\nRincian Pengeluaran dari Terkecil:[/bold bright_cyan]")
+                print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terkecil:[/bold bright_yellow]")
                 arrPengeluaran = quickSort(arrPengeluaran)
             elif sorting == "2":
-                print(f"[bold bright_cyan]\nRincian Pengeluaran dari Terbesar:[/bold bright_cyan]")
+                print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terbesar:[/bold bright_yellow]")
                 arrPengeluaran = quickSortDesc(arrPengeluaran)
             elif sorting.lower() == "n":
                 break
@@ -257,7 +257,7 @@ def fiturSatu():
     saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
-    tabel = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", 
+    tabel = Prompt.ask(f"[bold bright_cyan]Lihat dalam bentuk tabel?[/bold bright_cyan]", 
                     choices =["y","n"])
     if tabel.lower() == "y":
         tabelKeuangan(
@@ -271,7 +271,7 @@ def fiturSatu():
         )
 
     # Pilihan untuk menampilkan Grafik
-    tampilGrafik = Prompt.ask("[bold bright_blue]Lihat dalam bentuk grafik?[/bold bright_blue]", choices=["y","n"])
+    tampilGrafik = Prompt.ask("[bold bright_cyan]Lihat dalam bentuk grafik?[/bold bright_cyan]", choices=["y","n"])
     if tampilGrafik.lower() == "y":
         console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
         grafikLine(
@@ -287,7 +287,7 @@ def fiturSatu():
 
 
     # Pilihan ekspor ke PDF
-    eksporKePDF = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", 
+    eksporKePDF = Prompt.ask("[bold bright_cyan]Ingin ekspor hasil ke PDF?[/bold bright_cyan]", 
                         choices=["y", "n"])
     if eksporKePDF.lower() == "y":
         eksporPDF(
@@ -301,7 +301,7 @@ def fiturSatu():
         )
 
     # Kembali ke Halaman Utama
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    kembali = Prompt.ask("[bold bright_yellow]\nKetik 'Q/q' untuk kembali ke menu utama[/bold bright_yellow]", choices=["Q", "q"])
     if kembali.lower() == "q":
         progressBar()
         return True

@@ -47,7 +47,7 @@ def formatRupiah(nilai):
 # Fungsi input tanggal 
 def inputTanggal(tipeTanggal):
     while True:
-        inputTanggal = Prompt.ask(f"[bold bright_green]Masukan tanggal {tipeTanggal} (dd-mm-yyyy)[/bold bright_green]")
+        inputTanggal = Prompt.ask(f"[bold bright_cyan]Masukan tanggal {tipeTanggal} (dd-mm-yyyy)[/bold bright_cyan]")
 
         # Memeriksa format tanggal dan validasi manual
         if len(inputTanggal) == 10 and inputTanggal[2] == '-' and inputTanggal[5] == '-':

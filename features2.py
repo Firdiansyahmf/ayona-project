@@ -302,14 +302,14 @@ def fiturDua():
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
 
     # Input Pilihan Menu
-    console.print("[bold bright_cyan]1. Yo-Savers\n2. Yo-Goals\n[bold bright_yellow]3. Kembali[/bold bright_yellow][/bold bright_cyan]")
-    pilihanPerhitungan = Prompt.ask("[bold bright_green]Pilih menu yang ingin Anda akses (1-2), atau pilih 3 untuk kembali[/bold bright_green]", 
+    console.print("[bold bright_white]1. Yo-Savers\n2. Yo-Goals\n[bold bright_yellow]3. Kembali[/bold bright_yellow][/bold bright_white]")
+    pilihanPerhitungan = Prompt.ask("[bold bright_cyan]Pilih menu yang ingin Anda akses (1-2), atau pilih 3 untuk kembali[/bold bright_cyan]", 
                         choices=["1", "2", "3"])
     progressBar()
     
     # Masuk ke Yo-Savers
     if pilihanPerhitungan == "1":
-        console.print(Panel("Yo-Savers", style="bold bright_white", width=13))
+        console.print(Panel("Yo-Savers", style="bold bright_cyan", width=13))
 
         # Tanggal saat Perhitungan
         datetimeNow = datetime.now()
@@ -318,11 +318,11 @@ def fiturDua():
         tanggalPerhitungan = waktuPerhitungan.strftime("%d-%m-%Y")
 
         # Input jenis lama waktu menabung
-        jenisLamaWaktuMenabung = Prompt.ask("[bold bright_green]Masukkan jenis untuk lama waktu menabung Anda[/bold bright_green]", choices=["hari", "minggu", "bulan", "tahun"])
+        jenisLamaWaktuMenabung = Prompt.ask("[bold bright_cyan]Masukkan jenis untuk lama waktu menabung Anda[/bold bright_cyan]", choices=["hari", "minggu", "bulan", "tahun"])
         
         # Input lama waktu menabung
         while True:
-            lamaWaktuMenabung = Prompt.ask("[bold bright_green]Masukkan lama waktu menabung (Masukkan angka berdasarkan jenis sebelumnya)[/bold bright_green]")
+            lamaWaktuMenabung = Prompt.ask("[bold bright_cyan]Masukkan lama waktu menabung [bold bright_black](Masukkan angka berdasarkan jenis sebelumnya)[/bold bright_black][/bold bright_cyan]")
             if lamaWaktuMenabung.isdigit():
                 lamaWaktuMenabung = float(lamaWaktuMenabung)
                 break
@@ -336,7 +336,7 @@ def fiturDua():
 
         # Input target besaran menabung
         while True:
-            targetBesaranMenabung = Prompt.ask("[bold bright_green]Masukkan target besaran menabung Anda[/bold bright_green]")
+            targetBesaranMenabung = Prompt.ask("[bold bright_cyan]Masukkan target besaran menabung Anda[/bold bright_cyan]")
             if targetBesaranMenabung.isdigit():
                 targetBesaranMenabung = int(targetBesaranMenabung)
                 break
@@ -345,13 +345,13 @@ def fiturDua():
 
         # Input jumlah pemasukan bersih
         while True:
-            tanyaMetodeInputJumlahPemasukanBersih = Prompt.ask("[bold bright_green]Masukkan jumlah pemasukan bersih, [bold bright_black]atau ketik 'hitung' untuk menghitung jumlah pemasukan bersih dan ketik 'ya' apabila ingin menggunakan data catatan keuangan Yo-Managements yang sudah anda isi[/bold bright_black][/bold bright_green]")
+            tanyaMetodeInputJumlahPemasukanBersih = Prompt.ask("[bold bright_cyan]Masukkan jumlah pemasukan bersih, [bold bright_black]atau ketik 'hitung' untuk menghitung jumlah pemasukan bersih dan ketik 'ya' apabila ingin menggunakan data catatan keuangan Yo-Managements yang sudah anda isi[/bold bright_black][/bold bright_cyan]")
             if tanyaMetodeInputJumlahPemasukanBersih.isdigit():
                 jumlahPemasukanBersih = float(tanyaMetodeInputJumlahPemasukanBersih)
             elif tanyaMetodeInputJumlahPemasukanBersih.lower() == "hitung":
                 # Input jumlah pemasukan
                 while True:
-                    jumlahPemasukan = Prompt.ask("[bold bright_green]Masukkan jumlah pemasukan[/bold bright_green]")
+                    jumlahPemasukan = Prompt.ask("[bold bright_yellow]Masukkan jumlah pemasukan[/bold bright_yellow]")
                     if jumlahPemasukan.isdigit():
                         jumlahPemasukan = float(jumlahPemasukan)
                         break
@@ -384,7 +384,7 @@ def fiturDua():
 
             # Tampilkan catatan menabung Yo-Savers
             progressBar()
-            console.print(Panel("Catatan Menabung Yo-Savers", style="bold bright_white", width=15))
+            console.print(Panel("Catatan Menabung Yo-Savers", style="bold bright_cyan", width=15))
             console.print(f"[bold bright_white]Tanggal Perhitungan\t: {tanggalPerhitungan}[/bold bright_white]")
             console.print(f"[bold bright_white]Lama Waktu Menabung\t: {int(hariMenabung)} hari[/bold bright_white]")
             console.print(f"[bold bright_white]Target besaran menabung\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
@@ -398,11 +398,11 @@ def fiturDua():
                     console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
             else:
                 console.print("[bold bright_red]Pemasukan bersih tidak mencukupi untuk menabung dengan lama waktu yang ditentukan[/bold bright_red]")
-                console.print(f"[bold bright_magenta]Minimal pemasukan bersih per hari yang dibutuhkan: {formatRupiah(minPemasukanBersih)}[/bold bright_magenta]")
+                console.print(f"[bold bright_dark]Minimal pemasukan bersih per hari yang dibutuhkan: {formatRupiah(minPemasukanBersih)}[/bold bright_dark]")
                 yoSaversHari = None
 
             #Pilihan Yo-Savers dalam bentuk Tabel
-            tabelys = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", choices =["y","n"])
+            tabelys = Prompt.ask(f"[bold bright_cyan]Lihat dalam bentuk tabel?[/bold bright_cyan]", choices =["y","n"])
             if tabelys.lower() == "y":
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     tabelYoSavers(
@@ -430,7 +430,7 @@ def fiturDua():
                     )
 
             # Pilihan Yo-Savers dalam bentuk Grafik
-            grafikYs = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", choices =["y","n"])
+            grafikYs = Prompt.ask(f"[bold bright_cyan]Lihat data dalam bentuk Grafik?[/bold bright_cyan]", choices =["y","n"])
             if grafikYs.lower() == "y":
                 console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
                 grafikLineYoSavers(
@@ -445,7 +445,7 @@ def fiturDua():
                 console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")
                     
             # Ekspor PDF untuk Yo-Savers
-            eksporys = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
+            eksporys = Prompt.ask("[bold bright_cyan]Ingin ekspor hasil ke PDF?[/bold bright_cyan]", choices=["y", "n"])
             if eksporys.lower() == "y":
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     eksporPDFYoSavers(
@@ -492,17 +492,17 @@ def fiturDua():
     
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
-        console.print(Panel("Yo-Goals", style="bold bright_white", width=12))
+        console.print(Panel("Yo-Goals", style="bold bright_cyan", width=12))
 
         # Import Variabel Global
         from database_yogoals import yoGoalsDict
 
         # Input nama target menabung
-        namaTargetMenabung = Prompt.ask("[bold bright_green]Masukkan nama target menabung Anda[/bold bright_green]")
+        namaTargetMenabung = Prompt.ask("[bold bright_cyan]Masukkan nama target menabung Anda[/bold bright_cyan]")
             
         # Input jumlah besaran Menabung di tiap harinya
         while True:
-            besaranMenabungHari = Prompt.ask("[bold bright_green]Masukkan jumlah besaran menabung 'di setiap harinya' (Masukkan Nominal)[/bold bright_green]")
+            besaranMenabungHari = Prompt.ask("[bold bright_cyan]Masukkan jumlah besaran menabung 'di setiap harinya' [bold bright_dark](Masukkan Nominal)[/bold bright_dark][/bold bright_cyan]")
             if besaranMenabungHari == "0":
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan angka tidak sama dengan 0.[/bold bright_red]")
             elif besaranMenabungHari.isdigit():
@@ -513,7 +513,7 @@ def fiturDua():
 
         # Input target besaran menabung
         while True:
-            targetBesaranMenabung = Prompt.ask("[bold bright_green]Masukkan target besaran menabung Anda (Masukkan Nominal)[/bold bright_green]")
+            targetBesaranMenabung = Prompt.ask("[bold bright_cyan]Masukkan target besaran menabung Anda [bold bright_dark](Masukkan Nominal)[/bold bright_dark][/bold bright_cyan]")
             if targetBesaranMenabung.isdigit():
                 targetBesaranMenabung = int(targetBesaranMenabung)
                 break
@@ -525,7 +525,7 @@ def fiturDua():
 
         # Tampilkan catatan menabung Yo-Goals
         progressBar()
-        console.print(Panel("Catatan Menabung Yo-Goals", style="bold bright_white", width=15))
+        console.print(Panel("Catatan Menabung Yo-Goals", style="bold bright_cyan", width=15))
         console.print(f"[bold bright_white]Nama target Menabung\t\t\t  : {namaTargetMenabung}[/bold bright_white]")
         console.print(f"[bold bright_white]Jumlah besaran menabung di setiap harinya : {formatRupiah(besaranMenabungHari)}[/bold bright_white]")
         console.print(f"[bold bright_white]Jumlah target besaran menabung\t\t  : {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
@@ -536,20 +536,20 @@ def fiturDua():
             'yoGoals': yoGoals
         }
         while True:
-            targetSearch = Prompt.ask("[bold bright_blue]Apakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan?[/bold bright_blue]", choices=["y", "n"])
+            targetSearch = Prompt.ask("[bold bright_cyan]\nApakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan?[/bold bright_cyan]", choices=["y", "n"])
             if targetSearch == "y":
-                target = Prompt.ask("[bold bright_green]Masukkan Nama Target Menabung yang dicari[/bold bright_green]")
+                target = Prompt.ask("[bold bright_yellow]Masukkan Nama Target Menabung yang dicari[/bold bright_yellow]")
                 namaList = list(yoGoalsDict.keys())
                 result = linearSearch(namaList, target)
                 if result != -1:
                     yoGoalsResult = yoGoalsDict[namaList[result]]['yoGoals']
                     console.print(f"[bold bright_green]Pencarian ditemukan[/bold bright_green]")
-                    console.print(f"[bold bright_white]Nama target Menabung\t : {target}[/bold bright_white]")
-                    console.print(f"[bold bright_white]Lama Anda perlu menabung : {yoGoalsResult} hari[/bold bright_white]")
+                    console.print(f"[bold bright_yellow]Nama target Menabung\t : {target}[/bold bright_yellow]")
+                    console.print(f"[bold bright_yellow]Lama Anda perlu menabung : {yoGoalsResult} hari[/bold bright_yellow]")
                 else:
                     console.print("[bold bright_red]Pencarian tidak ditemukan[/bold bright_red]")
                 
-                closeSearch = Prompt.ask("[bold bright_blue]Tutup pencarian?[/bold bright_blue]", choices=["y","n"])
+                closeSearch = Prompt.ask("[bold bright_cyan]Tutup pencarian?[/bold bright_cyan]", choices=["y","n"])
                 if closeSearch == "y":
                     break
                 elif closeSearch == "n":
@@ -558,13 +558,13 @@ def fiturDua():
                 break
 
         #Pilihan Yo-Goals dalam bentuk Tabel
-        tabelyg = Prompt.ask(f"\n[bold bright_blue]Lihat dalam bentuk tabel?[/bold bright_blue]", choices =["y","n"])
+        tabelyg = Prompt.ask(f"[bold bright_blue]\nLihat dalam bentuk tabel?[/bold bright_blue]", choices =["y","n"])
         
         if tabelyg.lower() == "y":
             tabelYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), f"{yoGoals} hari")
 
         # Pilihan Yo-Goals dalam bentuk Grafik
-        grafikYg = Prompt.ask(f"\n[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", choices =["y","n"])
+        grafikYg = Prompt.ask(f"[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", choices =["y","n"])
         if grafikYg.lower() == "y":
             console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
             grafikLineYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals)
@@ -580,7 +580,7 @@ def fiturDua():
         return True
 
     # Kembali ke Halaman Utama
-    kembali = Prompt.ask("[bold bright_blue]Ketik 'Q/q' untuk kembali ke menu utama[/bold bright_blue]", choices=["Q", "q"])
+    kembali = Prompt.ask("[bold bright_yellow]\nKetik 'Q/q' untuk kembali ke menu utama[/bold bright_yellow]", choices=["Q", "q"])
     if kembali.lower() == "q":
         progressBar()
         return True
