@@ -51,7 +51,7 @@ def tabelYoSavers(
         str(yoSaversMinggu),
         str(yoSaversBulan)
     )
-    print(table)
+    console.print(table)
 
 #Fungsi tampilan tabel Yo-Goals
 def tabelYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
@@ -64,7 +64,7 @@ def tabelYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
         str(targetBesaranMenabung),
         str(yoGoals)
     )
-    print(table)
+    console.print(table)
 
 # Grafik untuk Yo-Savers
 def grafikLineYoSavers(
@@ -234,10 +234,10 @@ def eksporPDFYoSavers(
             break
         angkaUrut += 1
     pdf.output(lokasiFile)
-    print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Savers.pdf'[/bold green]")
+    console.print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Savers.pdf'[/bold green]")
     
 # Ekspor PDF untuk Yo-Goals
-def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
+def eksporPDFYoGoals(namaTargetMenabung, besaranMenabungHari, targetBesaranMenabung, yoGoals):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=16)
@@ -245,9 +245,10 @@ def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
     pdf.set_font("Arial", size=12)
     pdf.ln(10)  # Jarak baris
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt=f"Besaran Menabung setiap Hari: {besaranMenabungHari}", ln=True)
+    pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
+    pdf.cell(200, 10, txt=f"Besaran Menabung Setiap Hari: {besaranMenabungHari}", ln=True)
     pdf.cell(200, 10, txt=f"Target Besaran Menabung: {targetBesaranMenabung}", ln=True)
-    pdf.cell(200, 10, txt=f"Lama anda perlu menabung: {yoGoals} hari", ln=True)
+    pdf.cell(200, 10, txt=f"Lama Anda Perlu menabung: {yoGoals} hari", ln=True)
 
     #Simpan PDF
     unduhPath = os.path.join(os.path.expanduser("~"), "Downloads")
@@ -260,7 +261,7 @@ def eksporPDFYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals):
             break
         angkaUrut += 1
     pdf.output(lokasiFile)
-    print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Goals.pdf'[/bold green]")
+    console.print(f"Hasil berhasil diekspor ke [bold green]'Catatan_Menabung_Yo-Goals.pdf'[/bold green]")
 
 # Fungsi untuk mengecek apakah tahun adalah kabisat dengan library calendar
 def tahunKabisat(tahun):
@@ -290,6 +291,19 @@ def konversiKeHari(jenisLamaWaktuMenabung, lamaWaktuMenabung, tahun):
         console.print("[bold bright_red]Input tidak valid. Harap masukkan angka atau ketik 'hitung' atau 'ya'.[/bold bright_red]")
     return hariMenabung
 
+# Fungsi untuk pencarian YoGoals
+def pencarianYoGoals(yoGoalsDict):
+    target = Prompt.ask("[bold bright_yellow]Masukkan Nama Target Menabung yang dicari[/bold bright_yellow]")
+    namaList = list(yoGoalsDict.keys())
+    result = linearSearch(namaList, target)
+    if result != -1:
+        yoGoalsResult = yoGoalsDict[namaList[result]]['yoGoals']
+        console.print(f"[bold bright_green]Pencarian ditemukan[/bold bright_green]")
+        console.print(f"[bold bright_yellow]Nama target Menabung\t : {target}[/bold bright_yellow]")
+        console.print(f"[bold bright_yellow]Lama Anda perlu menabung : {yoGoalsResult} hari[/bold bright_yellow]")
+    else:
+        console.print("[bold bright_red]Pencarian tidak ditemukan[/bold bright_red]")
+
 """
 Fitur 2
 (main)
@@ -297,6 +311,9 @@ Fitur 2
 def fiturDua():
     # Impor variabel global jumlahPemasukanBersih
     from features1 import jumlahPemasukanBersih
+
+    # Inisialisasi
+    ynValid = ["y", "n"]
 
     # Panel
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
@@ -318,8 +335,14 @@ def fiturDua():
         tanggalPerhitungan = waktuPerhitungan.strftime("%d-%m-%Y")
 
         # Input jenis lama waktu menabung
-        jenisLamaWaktuMenabung = Prompt.ask("[bold bright_cyan]Masukkan jenis untuk lama waktu menabung Anda[/bold bright_cyan]", choices=["hari", "minggu", "bulan", "tahun"])
-        
+        tipeWaktuValid = ["hari", "minggu", "bulan", "tahun"]
+        while True:
+            jenisLamaWaktuMenabung = Prompt.ask(r"[bold bright_cyan]Masukkan jenis untuk lama waktu menabung Anda [bold bright_magenta]\[hari/minggu/bulan/tahun][/bold bright_magenta][/bold bright_cyan]").lower()
+            if jenisLamaWaktuMenabung in tipeWaktuValid:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
+    
         # Input lama waktu menabung
         while True:
             lamaWaktuMenabung = Prompt.ask("[bold bright_cyan]Masukkan lama waktu menabung [bold bright_black](Masukkan angka berdasarkan jenis sebelumnya)[/bold bright_black][/bold bright_cyan]")
@@ -348,6 +371,7 @@ def fiturDua():
             tanyaMetodeInputJumlahPemasukanBersih = Prompt.ask("[bold bright_cyan]Masukkan jumlah pemasukan bersih, [bold bright_black]atau ketik 'hitung' untuk menghitung jumlah pemasukan bersih dan ketik 'ya' apabila ingin menggunakan data catatan keuangan Yo-Managements yang sudah anda isi[/bold bright_black][/bold bright_cyan]")
             if tanyaMetodeInputJumlahPemasukanBersih.isdigit():
                 jumlahPemasukanBersih = float(tanyaMetodeInputJumlahPemasukanBersih)
+                break
             elif tanyaMetodeInputJumlahPemasukanBersih.lower() == "hitung":
                 # Input jumlah pemasukan
                 while True:
@@ -357,53 +381,54 @@ def fiturDua():
                         break
                     else:
                         console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
-               
                 # Input jumlah pengeluaran
                 jumlahPengeluaran = hitungJumlahPengeluaran()
-
                 # Hitung pemasukan bersih 
                 jumlahPemasukanBersih = jumlahPemasukan - jumlahPengeluaran
-
+                break
             elif tanyaMetodeInputJumlahPemasukanBersih.lower() == "ya":
                 # Validasi
                 if jumlahPemasukanBersih is not None:
                     jumlahPemasukanBersih = jumlahPemasukanBersih
+                    break
                 else:
                     console.print("[bold bright_red]Anda belum mengisi data catatan keuangan Yo-Managements. Gunakan cara lain.[/bold bright_red]")
                     continue
             else:
-                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka atau ketik 'hitung' atau 'ya'.[/bold bright_red]")
-
-            # Perhitungan Yo-Savers
-            yoSaversHari = targetBesaranMenabung / konversiKeHari(jenisLamaWaktuMenabung, lamaWaktuMenabung, datetime.now().year)
-            yoSaversMinggu = yoSaversHari * 7 if (targetBesaranMenabung / (yoSaversHari*7)) >= 1 else None
-            yoSaversBulan = yoSaversHari * sum(hariDalamBulan(datetime.now().year)) / 12 if (targetBesaranMenabung / (yoSaversHari * sum(hariDalamBulan(datetime.now().year)) / 12)) >= 1 else None
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif atau ketik 'hitung' atau 'ya'.[/bold bright_red]")
+                continue
             
-            # Minimal pemasukan bersih
-            minPemasukanBersih = yoSaversHari
+        # Perhitungan Yo-Savers
+        yoSaversHari = targetBesaranMenabung / konversiKeHari(jenisLamaWaktuMenabung, lamaWaktuMenabung, datetime.now().year)
+        yoSaversMinggu = yoSaversHari * 7 if (targetBesaranMenabung / (yoSaversHari*7)) >= 1 else None
+        yoSaversBulan = yoSaversHari * sum(hariDalamBulan(datetime.now().year)) / 12 if (targetBesaranMenabung / (yoSaversHari * sum(hariDalamBulan(datetime.now().year)) / 12)) >= 1 else None
+        
+        # Minimal pemasukan bersih
+        minPemasukanBersih = yoSaversHari
 
-            # Tampilkan catatan menabung Yo-Savers
-            progressBar()
-            console.print(Panel("Catatan Menabung Yo-Savers", style="bold bright_cyan", width=15))
-            console.print(f"[bold bright_white]Tanggal Perhitungan\t: {tanggalPerhitungan}[/bold bright_white]")
-            console.print(f"[bold bright_white]Lama Waktu Menabung\t: {int(hariMenabung)} hari[/bold bright_white]")
-            console.print(f"[bold bright_white]Target besaran menabung\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
-            console.print(f"[bold bright_white]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_white]")
+        # Tampilkan catatan menabung Yo-Savers
+        progressBar()
+        console.print(Panel("Catatan Menabung Yo-Savers", style="bold bright_cyan", width=15))
+        console.print(f"[bold bright_white]Tanggal Perhitungan\t: {tanggalPerhitungan}[/bold bright_white]")
+        console.print(f"[bold bright_white]Lama Waktu Menabung\t: {int(hariMenabung)} hari[/bold bright_white]")
+        console.print(f"[bold bright_white]Target besaran menabung\t: {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
+        console.print(f"[bold bright_white]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_white]")
+        if yoSaversHari <= jumlahPemasukanBersih:
             console.print(f"[bold bright_black]Jumlah uang yang harus anda sisihkan[/bold bright_black]")
-            if yoSaversHari <= jumlahPemasukanBersih:
-                console.print(f"[bold bright_white]Dalam per hari\t\t: {formatRupiah(yoSaversHari)}/Hari[/bold bright_white]")
-                if yoSaversMinggu is not None:
-                    console.print(f"[bold bright_white]Dalam per minggu\t: {formatRupiah(yoSaversMinggu)}/Minggu[/bold bright_white]")
-                if yoSaversBulan is not None:
-                    console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
-            else:
-                console.print("[bold bright_red]Pemasukan bersih tidak mencukupi untuk menabung dengan lama waktu yang ditentukan[/bold bright_red]")
-                console.print(f"[bold bright_dark]Minimal pemasukan bersih per hari yang dibutuhkan: {formatRupiah(minPemasukanBersih)}[/bold bright_dark]")
-                yoSaversHari = None
+            console.print(f"[bold bright_white]Dalam per hari\t\t: {formatRupiah(yoSaversHari)}/Hari[/bold bright_white]")
+            if yoSaversMinggu is not None:
+                console.print(f"[bold bright_white]Dalam per minggu\t: {formatRupiah(yoSaversMinggu)}/Minggu[/bold bright_white]")
+            if yoSaversBulan is not None:
+                console.print(f"[bold bright_white]Dalam per bulan\t\t: {formatRupiah(yoSaversBulan)}/Bulan[/bold bright_white]")
+        else:
+            console.print("[bold bright_red]Pemasukan bersih tidak mencukupi untuk menabung dengan lama waktu yang ditentukan[/bold bright_red]")
+            console.print(f"[bold bright_black]Minimal pemasukan bersih per hari yang dibutuhkan: [bold bright_cyan]{formatRupiah(minPemasukanBersih)}[/bold bright_cyan][/bold bright_black]")
+            yoSaversHari = None
 
-            #Pilihan Yo-Savers dalam bentuk Tabel
-            tabelys = Prompt.ask(f"[bold bright_cyan]Lihat dalam bentuk tabel?[/bold bright_cyan]", choices =["y","n"])
-            if tabelys.lower() == "y":
+        #Pilihan Yo-Savers dalam bentuk Tabel
+        while True:
+            tabelys = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if tabelys in ynValid[0]:
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     tabelYoSavers(
                         tanggalPerhitungan, hariMenabung, formatRupiah(targetBesaranMenabung),
@@ -428,10 +453,16 @@ def fiturDua():
                         formatRupiah(jumlahPemasukanBersih), yoSaversHari,  
                         yoSaversMinggu, yoSaversBulan
                     )
+                break
+            elif tabelys in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
-            # Pilihan Yo-Savers dalam bentuk Grafik
-            grafikYs = Prompt.ask(f"[bold bright_cyan]Lihat data dalam bentuk Grafik?[/bold bright_cyan]", choices =["y","n"])
-            if grafikYs.lower() == "y":
+        # Pilihan Yo-Savers dalam bentuk Grafik
+        while True:
+            grafikYs = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if grafikYs in ynValid[0]:
                 console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
                 grafikLineYoSavers(
                     tanggalPerhitungan,
@@ -443,10 +474,16 @@ def fiturDua():
                     yoSaversBulan
                 )
                 console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")
+                break
+            elif grafikYs in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
                     
-            # Ekspor PDF untuk Yo-Savers
-            eksporys = Prompt.ask("[bold bright_cyan]Ingin ekspor hasil ke PDF?[/bold bright_cyan]", choices=["y", "n"])
-            if eksporys.lower() == "y":
+        # Ekspor PDF untuk Yo-Savers
+        while True:
+            eksporys = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if eksporys in ynValid[0]:
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     eksporPDFYoSavers(
                         tanggalPerhitungan, 
@@ -488,7 +525,11 @@ def fiturDua():
                         yoSaversHari, yoSaversMinggu, yoSaversBulan,
                         minPemasukanBersih
                     )
-            break
+                break
+            elif eksporys in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")  
     
     # Masuk ke Yo-Goals
     elif pilihanPerhitungan == "2":
@@ -502,7 +543,7 @@ def fiturDua():
             
         # Input jumlah besaran Menabung di tiap harinya
         while True:
-            besaranMenabungHari = Prompt.ask("[bold bright_cyan]Masukkan jumlah besaran menabung 'di setiap harinya' [bold bright_dark](Masukkan Nominal)[/bold bright_dark][/bold bright_cyan]")
+            besaranMenabungHari = Prompt.ask("[bold bright_cyan]Masukkan jumlah besaran menabung 'di setiap harinya' [bold bright_black](Masukkan Nominal)[/bold bright_black][/bold bright_cyan]")
             if besaranMenabungHari == "0":
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan angka tidak sama dengan 0.[/bold bright_red]")
             elif besaranMenabungHari.isdigit():
@@ -513,7 +554,7 @@ def fiturDua():
 
         # Input target besaran menabung
         while True:
-            targetBesaranMenabung = Prompt.ask("[bold bright_cyan]Masukkan target besaran menabung Anda [bold bright_dark](Masukkan Nominal)[/bold bright_dark][/bold bright_cyan]")
+            targetBesaranMenabung = Prompt.ask("[bold bright_cyan]Masukkan target besaran menabung Anda [bold bright_black](Masukkan Nominal)[/bold bright_black][/bold bright_cyan]")
             if targetBesaranMenabung.isdigit():
                 targetBesaranMenabung = int(targetBesaranMenabung)
                 break
@@ -536,44 +577,60 @@ def fiturDua():
             'yoGoals': yoGoals
         }
         while True:
-            targetSearch = Prompt.ask("[bold bright_cyan]\nApakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan?[/bold bright_cyan]", choices=["y", "n"])
-            if targetSearch == "y":
-                target = Prompt.ask("[bold bright_yellow]Masukkan Nama Target Menabung yang dicari[/bold bright_yellow]")
-                namaList = list(yoGoalsDict.keys())
-                result = linearSearch(namaList, target)
-                if result != -1:
-                    yoGoalsResult = yoGoalsDict[namaList[result]]['yoGoals']
-                    console.print(f"[bold bright_green]Pencarian ditemukan[/bold bright_green]")
-                    console.print(f"[bold bright_yellow]Nama target Menabung\t : {target}[/bold bright_yellow]")
-                    console.print(f"[bold bright_yellow]Lama Anda perlu menabung : {yoGoalsResult} hari[/bold bright_yellow]")
-                else:
-                    console.print("[bold bright_red]Pencarian tidak ditemukan[/bold bright_red]")
-                
-                closeSearch = Prompt.ask("[bold bright_cyan]Tutup pencarian?[/bold bright_cyan]", choices=["y","n"])
-                if closeSearch == "y":
-                    break
-                elif closeSearch == "n":
-                    continue
-            elif targetSearch == "n":
+            print("")
+            targetSearch = Prompt.ask(r"[bold bright_cyan]Apakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if targetSearch in ynValid[0]:
+                pencarianYoGoals(yoGoalsDict)
+                while True:
+                    closeSearch = Prompt.ask(r"[bold bright_cyan]Tutup pencarian? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+                    if closeSearch in ynValid[0]:
+                        break
+                    elif closeSearch in ynValid[1]:
+                        pencarianYoGoals(yoGoalsDict)
+                    else:
+                        console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
+                        continue
                 break
+            elif targetSearch in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
         #Pilihan Yo-Goals dalam bentuk Tabel
-        tabelyg = Prompt.ask(f"[bold bright_blue]\nLihat dalam bentuk tabel?[/bold bright_blue]", choices =["y","n"])
-        
-        if tabelyg.lower() == "y":
-            tabelYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), f"{yoGoals} hari")
-
+        while True:
+            print("")
+            tabelyg = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if tabelyg in ynValid[0]:
+                tabelYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), f"{yoGoals} hari")
+                break
+            elif tabelyg in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
+            
         # Pilihan Yo-Goals dalam bentuk Grafik
-        grafikYg = Prompt.ask(f"[bold bright_blue]Lihat data dalam bentuk Grafik?[/bold bright_blue]", choices =["y","n"])
-        if grafikYg.lower() == "y":
-            console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
-            grafikLineYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals)
-            console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")     
+        while True:
+            grafikYg = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if grafikYg in ynValid[0]:
+                console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
+                grafikLineYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals)
+                console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]") 
+                break
+            elif grafikYg in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
         # Ekspor PDF untuk Yo-Goals
-        eksporyg = Prompt.ask("[bold bright_blue]Ingin ekspor hasil ke PDF?[/bold bright_blue]", choices=["y", "n"])
-        if eksporyg.lower() == "y":
-            eksporPDFYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), yoGoals)
+        while True:
+            eksporyg = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+            if eksporyg in ynValid[0]:
+                eksporPDFYoGoals(namaTargetMenabung, formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), yoGoals)
+                break
+            elif eksporyg in ynValid[1]:
+                break
+            else:
+                console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Kembali ke Halaman Utama
     elif pilihanPerhitungan == "3":

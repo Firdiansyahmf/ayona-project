@@ -48,7 +48,7 @@ def tabelKeuangan (
         str(jumlahPengeluaranRp),
         str(jumlahPemasukanBersihRp)
     )
-    print(table)
+    console.print(table)
     
 # Fungsi untuk membuat grafik
 def grafikLine(
@@ -158,7 +158,7 @@ def eksporPDF(
         angkaUrut += 1
 
     pdf.output(lokasiFile)
-    print(f"Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
+    console.print(f"Hasil berhasil diekspor ke [bold green]'Catatan Rekomendasi Keuangan.pdf'[/bold green]")
 
 # Fungsi untuk membuat saran keuangan
 def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan):
@@ -176,13 +176,13 @@ def saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tip
     sisaPemasukan = jumlahPemasukanBersih - tabunganDisarankan
 
     # Menampilkan saran keuangan
-    print(f"\n[bold bright_white]Saran Tabungan:[/bold bright_white] Sisihkan [bold bright_cyan] {persentaseTabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
-    print(f"[bold bright_white]Tabungan yang disarankan:[/bold bright_white] [bold bright_cyan] {formatRupiah(tabunganDisarankan)} [/bold bright_cyan]")
-    print(f"[bold bright_white]Sisa uang setelah ditabung:[/bold bright_white] [bold bright_cyan] {formatRupiah(sisaPemasukan)} [/bold bright_cyan]")
+    console.print(f"\n[bold bright_white]Saran Tabungan:[/bold bright_white] Sisihkan [bold bright_cyan] {persentaseTabungan*100}% [/bold bright_cyan] dari pemasukan untuk tabungan.")
+    console.print(f"[bold bright_white]Tabungan yang disarankan:[/bold bright_white] [bold bright_cyan] {formatRupiah(tabunganDisarankan)} [/bold bright_cyan]")
+    console.print(f"[bold bright_white]Sisa uang setelah ditabung:[/bold bright_white] [bold bright_cyan] {formatRupiah(sisaPemasukan)} [/bold bright_cyan]")
     if sisaPemasukan > 0:
-        print(f"[bold bright_cyan]Rekomendasi:[/bold bright_cyan] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
+        console.print(f"[bold bright_cyan]Rekomendasi:[/bold bright_cyan] Gunakan sisa tabungan ini untuk kebutuhan lain seperti investasi atau pengeluaran darurat.")
     else:
-        print(f"[bold bright_red]Peringatan:[/bold bright_red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
+        console.print(f"[bold bright_red]Peringatan:[/bold bright_red] Anda mungkin perlu menyesuaikan pengeluaran untuk memastikan keuangan tetap ideal.")
 
 #Inisialisasi variable global
 jumlahPemasukanBersih = None
@@ -193,11 +193,16 @@ Fitur 1
 """
 def fiturSatu():
     # Panel
-    print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
+    console.print(Panel("Yo-Managements", style="bold bright_cyan", width=18))
 
     # Input tipe dan tanggal pemasukan
-    tipeWaktuPemasukan = Prompt.ask("[bold bright_cyan]Masukkan tipe waktu untuk pemasukan[/bold bright_cyan]", 
-                                    choices=["hari", "minggu", "bulan", "tahun"])
+    tipeWaktuValid = ["hari", "minggu", "bulan", "tahun"]
+    while True:
+        tipeWaktuPemasukan = Prompt.ask(r"[bold bright_cyan]Masukkan tipe waktu untuk pemasukan [bold bright_magenta]\[hari/minggu/bulan/tahun][/bold bright_magenta][/bold bright_cyan]").lower()
+        if tipeWaktuPemasukan in tipeWaktuValid:
+            break
+        else:
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
     tanggalPemasukan = inputTanggal("pemasukan")
 
     # Input jumlah pemasukan
@@ -207,11 +212,16 @@ def fiturSatu():
             jumlahPemasukan = float(jumlahPemasukan)
             break
         else:
-            print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
 
     # Input tipe dan tanggal pengeluaran
-    tipeWaktuPengeluaran = Prompt.ask("[bold bright_cyan]Masukkan tipe waktu untuk pengeluaran[/bold bright_cyan]", 
-                                    choices=["hari", "minggu", "bulan", "tahun"])
+    while True:
+        # Raw String
+        tipeWaktuPengeluaran = Prompt.ask(r"[bold bright_cyan]Masukkan tipe waktu untuk pengeluaran [bold bright_magenta]\[hari/minggu/bulan/tahun][/bold bright_magenta][/bold bright_cyan]").lower()
+        if tipeWaktuPengeluaran in tipeWaktuValid:
+            break
+        else:
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
     tanggalPengeluaran = inputTanggal("pengeluaran")
 
     # Input jumlah pengeluaran
@@ -223,32 +233,32 @@ def fiturSatu():
 
     # Tampilkan catatan rekomendasi keuangan
     progressBar()
-    print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
-    print(f"[bold bright_white]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_white]")
-    print(f"[bold bright_white]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_white]")
-    print(f"[bold bright_white]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_white]")
-    print(f"[bold bright_white]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_white]")
-    print(f"[bold bright_white]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_white]")
-    print(f"[bold bright_white]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_white]")
-    print(f"[bold bright_white]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_white]")
+    console.print(Panel("Catatan Rekomendasi Keuangan", style="bold bright_cyan", width=15))
+    console.print(f"[bold bright_white]Tipe waktu pemasukan\t: {tipeWaktuPemasukan}[/bold bright_white]")
+    console.print(f"[bold bright_white]Tanggal pemasukan \t: {tanggalPemasukan}[/bold bright_white]")
+    console.print(f"[bold bright_white]Jumlah pemasukan Anda\t: {formatRupiah(jumlahPemasukan)}[/bold bright_white]")
+    console.print(f"[bold bright_white]Tipe waktu pengeluaran\t: {tipeWaktuPengeluaran}[/bold bright_white]")
+    console.print(f"[bold bright_white]Tanggal pengeluaran\t: {tanggalPengeluaran}[/bold bright_white]")
+    console.print(f"[bold bright_white]Jumlah pengeluaran Anda\t: {formatRupiah(jumlahPengeluaran)}[/bold bright_white]")
+    console.print(f"[bold bright_white]Pemasukan bersih Anda\t: {formatRupiah(jumlahPemasukanBersih)}[/bold bright_white]")
     
     # Impor variabel global
     from utils import untukCatatan, arrPengeluaran
 
     # Rincian Pengeluaran (Konsisi 2/2)
     if untukCatatan == True:
-        print(f"[bold bright_yellow]\nRincian Pengeluaran:[/bold bright_yellow]")
+        console.print(f"[bold bright_yellow]\nRincian Pengeluaran:[/bold bright_yellow]")
         while True:
             # Tampilkan Default
             for record in arrPengeluaran:
-                print(f"[bold bright_yellow]{formatRupiah(record)}[/bold bright_yellow]")
+                console.print(f"[bold bright_yellow]{formatRupiah(record)}[/bold bright_yellow]")
             # Sorting
-            sorting = Prompt.ask(f"[bold bright_cyan]Sorting rincian pengeluaran?\n[bold bright_dark]Ketik '1' untuk sorting dari terkecil dan '2' dari terbesar atau ketik 'n' jika tidak[/bold bright_dark][/bold bright_cyan]", choices=["1","2","n"])
+            sorting = Prompt.ask(f"[bold bright_cyan]Sorting rincian pengeluaran?\n[bold bright_black]Ketik '1' untuk sorting dari terkecil dan '2' dari terbesar atau ketik 'n' jika tidak[/bold bright_black][/bold bright_cyan]", choices=["1","2","n"])
             if sorting == "1":
-                print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terkecil:[/bold bright_yellow]")
+                console.print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terkecil:[/bold bright_yellow]")
                 arrPengeluaran = quickSort(arrPengeluaran)
             elif sorting == "2":
-                print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terbesar:[/bold bright_yellow]")
+                console.print(f"[bold bright_yellow]\nRincian Pengeluaran dari Terbesar:[/bold bright_yellow]")
                 arrPengeluaran = quickSortDesc(arrPengeluaran)
             elif sorting.lower() == "n":
                 break
@@ -257,48 +267,64 @@ def fiturSatu():
     saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
-    tabel = Prompt.ask(f"[bold bright_cyan]Lihat dalam bentuk tabel?[/bold bright_cyan]", 
-                    choices =["y","n"])
-    if tabel.lower() == "y":
-        tabelKeuangan(
-            tipeWaktuPemasukan, 
-            tanggalPemasukan, 
-            formatRupiah(jumlahPemasukan), 
-            tipeWaktuPengeluaran, 
-            tanggalPengeluaran, 
-            formatRupiah(jumlahPengeluaran), 
-            formatRupiah(jumlahPemasukanBersih)
-        )
+    ynValid = ["y", "n"]
+    while True:
+        tabel = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+        if tabel in ynValid[0]:
+            tabelKeuangan(
+                tipeWaktuPemasukan, 
+                tanggalPemasukan, 
+                formatRupiah(jumlahPemasukan), 
+                tipeWaktuPengeluaran, 
+                tanggalPengeluaran, 
+                formatRupiah(jumlahPengeluaran), 
+                formatRupiah(jumlahPemasukanBersih)
+            )
+            break
+        elif tabel in ynValid[1]:
+            break
+        else:
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Pilihan untuk menampilkan Grafik
-    tampilGrafik = Prompt.ask("[bold bright_cyan]Lihat dalam bentuk grafik?[/bold bright_cyan]", choices=["y","n"])
-    if tampilGrafik.lower() == "y":
-        console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
-        grafikLine(
-            tipeWaktuPemasukan, 
-            tanggalPemasukan, 
-            jumlahPemasukan, 
-            tipeWaktuPengeluaran, 
-            tanggalPengeluaran, 
-            jumlahPengeluaran, 
-            jumlahPemasukanBersih
-        )
-        console.print("[bold bright_white]Jendela grafik ditutup.[/bold bright_white]")
-
+    while True:
+        tampilGrafik = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").lower()
+        if tampilGrafik in ynValid[0]:
+            console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
+            grafikLine(
+                tipeWaktuPemasukan, 
+                tanggalPemasukan, 
+                jumlahPemasukan, 
+                tipeWaktuPengeluaran, 
+                tanggalPengeluaran, 
+                jumlahPengeluaran, 
+                jumlahPemasukanBersih
+            )
+            console.print("[bold bright_white]Jendela grafik ditutup.[/bold bright_white]")
+            break
+        elif tabel in ynValid[1]:
+            break
+        else:
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Pilihan ekspor ke PDF
-    eksporKePDF = Prompt.ask("[bold bright_cyan]Ingin ekspor hasil ke PDF?[/bold bright_cyan]", 
-                        choices=["y", "n"])
-    if eksporKePDF.lower() == "y":
-        eksporPDF(
-        tipeWaktuPemasukan, 
-            tanggalPemasukan, 
-            formatRupiah(jumlahPemasukan), 
-            tipeWaktuPengeluaran, 
-            tanggalPengeluaran, 
-            formatRupiah(jumlahPengeluaran), 
-            formatRupiah(jumlahPemasukanBersih)
-        )
+    while True:
+        eksporKePDF = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
+        if eksporKePDF in ynValid[0]:
+            eksporPDF(
+            tipeWaktuPemasukan, 
+                tanggalPemasukan, 
+                formatRupiah(jumlahPemasukan), 
+                tipeWaktuPengeluaran, 
+                tanggalPengeluaran, 
+                formatRupiah(jumlahPengeluaran), 
+                formatRupiah(jumlahPemasukanBersih)
+            )
+            break
+        elif tabel in ynValid[1]:
+            break
+        else:
+            console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Kembali ke Halaman Utama
     kembali = Prompt.ask("[bold bright_yellow]\nKetik 'Q/q' untuk kembali ke menu utama[/bold bright_yellow]", choices=["Q", "q"])

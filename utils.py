@@ -17,7 +17,7 @@ arrPengeluaran = None
 def progressBar():
     for _ in track(range(2), description="[bold green]Memuat..."):
         time.sleep(0.25)
-    print("")
+    console.print("")
 
 # Fungsi format ke Rupiah
 def formatRupiah(nilai):
@@ -89,7 +89,7 @@ def hitungJumlahPengeluaran():
     jumlahPengeluaran = 0
     global untukCatatan
     while True:
-        tanyaMetodeInputPengeluaran = Prompt.ask("[bold bright_green]Masukkan jumlah pengeluaran, [bold bright_black]atau ketik 'hitung' untuk menghitung total dari item[/bold bright_black][/bold bright_green]")
+        tanyaMetodeInputPengeluaran = Prompt.ask("[bold bright_yellow]Masukkan jumlah pengeluaran, [bold bright_black]atau ketik 'hitung' untuk menghitung total dari item[/bold bright_black][/bold bright_yellow]")
         if tanyaMetodeInputPengeluaran.isdigit():
             jumlahPengeluaran = float(tanyaMetodeInputPengeluaran)
             untukCatatan = False
@@ -105,7 +105,7 @@ def hitungJumlahPengeluaran():
                 elif inputPengeluaran.lower() == "selesai":
                     break
                 else:
-                    console.print("[bold bright_red]Input tidak valid. Harap masukkan angka.[/bold bright_red]")
+                    console.print("[bold bright_red]Input tidak valid. Harap masukkan angka Positif.[/bold bright_red]")
             jumlahPengeluaran = sum(arrPengeluaran)
             untukCatatan = True
             break
@@ -145,7 +145,7 @@ arr = [10, 15, 30, 70, 80, 60, 20, 90, 40]
 target = 20
 hasil = linearSearch(arr, target)
 if hasil != -1:
-    print(f"Linear Search: Elemen ditemukan di index {hasil}")
+    console.print(f"Linear Search: Elemen ditemukan di index {hasil}")
 else:
-    print("Linear Search: Elemen tidak ditemukan")
+    console.print("Linear Search: Elemen tidak ditemukan")
 """
