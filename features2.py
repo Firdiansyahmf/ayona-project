@@ -314,9 +314,6 @@ def fiturDua():
     # Impor variabel global jumlahPemasukanBersih
     from features1 import jumlahPemasukanBersih
 
-    # Inisialisasi
-    ynValid = ["y", "n"]
-
     # Panel
     console.print(Panel("Perhitungan Tabungan", style="bold bright_cyan", width=24))
 
@@ -429,8 +426,8 @@ def fiturDua():
 
         #Pilihan Yo-Savers dalam bentuk Tabel
         while True:
-            tabelys = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if tabelys in ynValid[0]:
+            tabelys = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if tabelys == "y":
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     tabelYoSavers(
                         tanggalPerhitungan, hariMenabung, formatRupiah(targetBesaranMenabung),
@@ -456,15 +453,18 @@ def fiturDua():
                         yoSaversMinggu, yoSaversBulan
                     )
                 break
-            elif tabelys in ynValid[1]:
+            elif tabelys == "n":
                 break
+            elif tabelys == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
         # Pilihan Yo-Savers dalam bentuk Grafik
         while True:
-            grafikYs = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if grafikYs in ynValid[0]:
+            grafikYs = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if grafikYs == "y":
                 console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
                 grafikLineYoSavers(
                     tanggalPerhitungan,
@@ -477,15 +477,18 @@ def fiturDua():
                 )
                 console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]")
                 break
-            elif grafikYs in ynValid[1]:
+            elif grafikYs == "n":
                 break
+            elif grafikYs == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
                     
         # Ekspor PDF untuk Yo-Savers
         while True:
-            eksporys = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if eksporys in ynValid[0]:
+            eksporys = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if eksporys == "y":
                 if yoSaversHari != None and yoSaversMinggu != None and yoSaversBulan != None:
                     eksporPDFYoSavers(
                         tanggalPerhitungan, 
@@ -528,8 +531,11 @@ def fiturDua():
                         minPemasukanBersih
                     )
                 break
-            elif eksporys in ynValid[1]:
+            elif eksporys == "n":
                 break
+            elif eksporys == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")  
     
@@ -580,57 +586,72 @@ def fiturDua():
         }
         while True:
             print("")
-            targetSearch = Prompt.ask(r"[bold bright_cyan]Apakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if targetSearch in ynValid[0]:
+            targetSearch = Prompt.ask(r"[bold bright_cyan]Apakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if targetSearch == "y":
                 pencarianYoGoals(yoGoalsDict)
                 while True:
-                    closeSearch = Prompt.ask(r"[bold bright_cyan]Tutup pencarian? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-                    if closeSearch in ynValid[0]:
+                    closeSearch = Prompt.ask(r"[bold bright_cyan]Tutup pencarian? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+                    if closeSearch == "y":
                         break
-                    elif closeSearch in ynValid[1]:
+                    elif closeSearch == "n":
                         pencarianYoGoals(yoGoalsDict)
+                    elif closeSearch == '':
+                        console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                        continue
                     else:
                         console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
                         continue
                 break
-            elif targetSearch in ynValid[1]:
+            elif targetSearch == "n":
                 break
+            elif targetSearch == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
         #Pilihan Yo-Goals dalam bentuk Tabel
         while True:
             print("")
-            tabelyg = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if tabelyg in ynValid[0]:
+            tabelyg = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if tabelyg == "y":
                 tabelYoGoals(formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), f"{yoGoals} hari")
                 break
-            elif tabelyg in ynValid[1]:
+            elif tabelyg == "n":
                 break
+            elif tabelyg == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
             
         # Pilihan Yo-Goals dalam bentuk Grafik
         while True:
-            grafikYg = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if grafikYg in ynValid[0]:
+            grafikYg = Prompt.ask(r"[bold bright_cyan]Lihat data dalam bentuk Grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if grafikYg == "y":
                 console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
                 grafikLineYoGoals(besaranMenabungHari, targetBesaranMenabung, yoGoals)
                 console.print("[bold bright_white]Jendela Grafik ditutup.[/bold bright_white]") 
                 break
-            elif grafikYg in ynValid[1]:
+            elif grafikYg == "n":
                 break
+            elif grafikYg == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
         # Ekspor PDF untuk Yo-Goals
         while True:
-            eksporyg = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-            if eksporyg in ynValid[0]:
+            eksporyg = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+            if eksporyg == "y":
                 eksporPDFYoGoals(namaTargetMenabung, formatRupiah(besaranMenabungHari), formatRupiah(targetBesaranMenabung), yoGoals)
                 break
-            elif eksporyg in ynValid[1]:
+            elif eksporyg == "n":
                 break
+            elif eksporyg == '':
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 

@@ -267,10 +267,9 @@ def fiturSatu():
     saranKeuangan(jumlahPemasukan, jumlahPengeluaran, jumlahPemasukanBersih, tipeWaktuPemasukan)
     
     # Pilihan Catatan Rekomendasi Keuangan dalam Bentuk Tabel
-    ynValid = ["y", "n"]
     while True:
-        tabel = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-        if tabel in ynValid[0]:
+        tabel = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk tabel? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+        if tabel == "y":
             tabelKeuangan(
                 tipeWaktuPemasukan, 
                 tanggalPemasukan, 
@@ -281,15 +280,18 @@ def fiturSatu():
                 formatRupiah(jumlahPemasukanBersih)
             )
             break
-        elif tabel in ynValid[1]:
+        elif tabel == "n":
             break
+        elif tabel == '':
+            console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+            continue
         else:
             console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Pilihan untuk menampilkan Grafik
     while True:
-        tampilGrafik = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").lower()
-        if tampilGrafik in ynValid[0]:
+        tampilGrafik = Prompt.ask(r"[bold bright_cyan]Lihat dalam bentuk grafik? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+        if tampilGrafik == "y":
             console.print("[bold bright_yellow]Silakan Tutup jendela grafik untuk melanjutkan program.[/bold bright_yellow]")
             grafikLine(
                 tipeWaktuPemasukan, 
@@ -302,15 +304,18 @@ def fiturSatu():
             )
             console.print("[bold bright_white]Jendela grafik ditutup.[/bold bright_white]")
             break
-        elif tabel in ynValid[1]:
+        elif tampilGrafik == "n":
             break
+        elif tampilGrafik == '':
+            console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+            continue
         else:
             console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
     # Pilihan ekspor ke PDF
     while True:
-        eksporKePDF = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]")
-        if eksporKePDF in ynValid[0]:
+        eksporKePDF = Prompt.ask(r"[bold bright_cyan]Ingin ekspor hasil ke PDF? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
+        if eksporKePDF == "y":
             eksporPDF(
             tipeWaktuPemasukan, 
                 tanggalPemasukan, 
@@ -321,8 +326,11 @@ def fiturSatu():
                 formatRupiah(jumlahPemasukanBersih)
             )
             break
-        elif tabel in ynValid[1]:
+        elif eksporKePDF =="n":
             break
+        elif eksporKePDF == '':
+            console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+            continue
         else:
             console.print("[bold bright_red]Input tidak valid. Harap masukkan sesuai opsi yang tersedia.[/bold bright_red]")
 
