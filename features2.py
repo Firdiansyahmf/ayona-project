@@ -3,6 +3,7 @@ from rich.console import Console  # Menyorot teks
 from rich.panel import Panel  # Menyorot teks
 from rich.prompt import Prompt  # Input interaktif
 from rich import print  # Warna teks
+from rich.markup import escape # Membuat string aman
 
 # Library Lainnya
 from fpdf import FPDF  # Impor PDF
@@ -575,7 +576,7 @@ def fiturDua():
         # Tampilkan catatan menabung Yo-Goals
         progressBar()
         console.print(Panel("Catatan Menabung Yo-Goals", style="bold bright_cyan", width=15))
-        console.print(f"[bold bright_white]Nama target Menabung\t\t\t  : {namaTargetMenabung}[/bold bright_white]")
+        console.print(f"[bold bright_white]Nama target Menabung\t\t\t  : {escape(namaTargetMenabung)}[/bold bright_white]")
         console.print(f"[bold bright_white]Jumlah besaran menabung di setiap harinya : {formatRupiah(besaranMenabungHari)}[/bold bright_white]")
         console.print(f"[bold bright_white]Jumlah target besaran menabung\t\t  : {formatRupiah(targetBesaranMenabung)}[/bold bright_white]")
         console.print(f"[bold bright_white]Lama Anda perlu menabung\t\t  : {yoGoals} hari[/bold bright_white]")
