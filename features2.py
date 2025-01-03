@@ -243,7 +243,6 @@ def eksporPDFYoGoals(namaTargetMenabung, besaranMenabungHari, targetBesaranMenab
     pdf.add_page()
     pdf.set_font("Arial", style="B", size=16)
     pdf.cell(200, 10, txt="Catatan Menabung Yo-Goals", ln=True, align="C")
-    pdf.set_font("Arial", size=12)
     pdf.ln(10)  # Jarak baris
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"Nama target Menabung  : {namaTargetMenabung}", ln=True)
