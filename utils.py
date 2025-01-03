@@ -135,8 +135,12 @@ def quickSortDesc(arr):
     
 # Fungsi untuk Searching data
 def linearSearch(arr, target):
+    # Ubag target menjadi lower
+    targetLower = target.lower()
+
     for i in range(len(arr)):
-        if arr[i] == target:
+        # Bandinglan elemen arr setelah diubah menjadi lower
+        if arr[i].lower() == targetLower:
             return i
     return -1
 

@@ -548,13 +548,21 @@ def fiturDua():
         from database_yogoals import yoGoalsDict
 
         # Input nama target menabung
-        namaTargetMenabung = Prompt.ask("[bold bright_cyan]Masukkan nama target menabung Anda[/bold bright_cyan]")
+        while True:
+            namaTargetMenabung = Prompt.ask("[bold bright_cyan]Masukkan nama target menabung Anda[/bold bright_cyan]")
+            if namaTargetMenabung == "":
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
+                continue
+            else:
+                break
             
         # Input jumlah besaran Menabung di tiap harinya
         while True:
             besaranMenabungHari = Prompt.ask("[bold bright_cyan]Masukkan jumlah besaran menabung 'di setiap harinya' [bold bright_black](Masukkan Nominal)[/bold bright_black][/bold bright_cyan]")
             if besaranMenabungHari == "0":
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan angka tidak sama dengan 0.[/bold bright_red]")
+            elif besaranMenabungHari == "":
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
             elif besaranMenabungHari.isdigit():
                 besaranMenabungHari = float(besaranMenabungHari)
                 break
@@ -567,6 +575,8 @@ def fiturDua():
             if targetBesaranMenabung.isdigit():
                 targetBesaranMenabung = int(targetBesaranMenabung)
                 break
+            elif targetBesaranMenabung == "":
+                console.print("[bold bright_red]Input tidak boleh kosong.[/bold bright_red]")
             else:
                 console.print("[bold bright_red]Input tidak valid. Harap masukkan angka positif.[/bold bright_red]")
 
@@ -586,7 +596,6 @@ def fiturDua():
             'yoGoals': yoGoals
         }
         while True:
-            print("")
             targetSearch = Prompt.ask(r"[bold bright_cyan]Apakah Anda ingin mencari Nama Target Menabung yang sudah dimasukkan? [bold bright_magenta]\[y/n][/bold bright_magenta][/bold bright_cyan]").strip().lower()
             if targetSearch == "y":
                 pencarianYoGoals(yoGoalsDict)
