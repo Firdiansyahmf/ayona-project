@@ -64,6 +64,7 @@ def inputTanggal(tipeTanggal):
                     if 1 <= day <= 31:
                         if month in [4, 6, 9, 11] and day > 30:
                             console.print("[bold bright_red]Tanggal tidak valid. Bulan ini hanya memiliki 30 hari.[/bold bright_red]")
+                            continue
                         elif month == 2:
                             # Cek tahun kabisat
                             if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
